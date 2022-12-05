@@ -34,6 +34,15 @@ The idea is that they will compile this file in 3 ways:
 2. Stripped
 3. Obfuscated/Packed -> UPX
 
+Then, the students will analyze the binary files obtained these ways using several tools:
+1. **file** to see that the binary file is using shared/static libraries.
+2. **string** to check strings that are used in the binary files.
+2. **nm** to mine the elf file.
+2. **objdump** to mine the elf file.
+3. **ldd** to mine the shared libraries required by the binary files.
+
+## Part 1.2: Dynamic Binary Analysis
+
 ##Requirements:
 
 ```
