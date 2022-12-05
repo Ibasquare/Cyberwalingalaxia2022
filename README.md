@@ -1,6 +1,6 @@
-#Material for cyberwalingalaxia2022.
+# Material for cyberwalingalaxia2022.
 
-##Agenda:
+## Agenda:
 # Part 1: Basic Static Binary Analysis (~40min)
 In this part, the student will staticly study a binary file that has networking (ssl?) and i/o capabilities that has been compiled in 3 different ways:
 1. Normal way
