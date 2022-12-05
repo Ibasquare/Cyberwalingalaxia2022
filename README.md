@@ -2,34 +2,7 @@
 
 ##Agenda:
 # Part 1: Basic Static Binary Analysis (~40min)
-In this part, the student will study the following binary file:
-``` c
-#include <stdio.h>
-#include <string.h>
-
-int main(int argc, char** argv){
-	
-	if(argc < 2)
-		return 0;
-	
-	char* a = "alb";
-	char* b = "inos";
-	char* c = "atros";
-	
-	char secret_key [255];
-	
-	strcpy(secret_key, a);
-	strcat(secret_key, c);
-	
-	if(!strcmp(secret_key, argv[1]))
-		printf("Congrats, you found the secret key\n");
-	else
-		printf("Better luck next time...\n");
-	
-	return 0;
-}
-```
-The idea is that they will compile this file in 3 ways:
+In this part, the student will staticly study a binary file that has networking (ssl?) and i/o capabilities that has been compiled in 3 different ways:
 1. Normal way
 2. Stripped
 3. Obfuscated/Packed -> UPX
@@ -41,11 +14,31 @@ Then, the students will analyze the binary files obtained these ways using sever
 2. **objdump** to mine the elf file.
 3. **ldd** to mine the shared libraries required by the binary files.
 
-## Part 1.2: Dynamic Binary Analysis
+## Part 2: Basic Dynamic Binary Analysis (~1hour)
+In this part, the student will analyze some of the basic operations that malicious binary files may attempt to perform:
+1. Network functionalities -> Download malicious payloads through a socket on a web server. 
+2. I/Os functionalities -> File operation on controlled environement (file system isolation?).
 
-##Requirements:
+To do so, they will mainly use two tools:
+1. INetSim/BurpSuite (cfr. https://infosecaddicts.com/set-up-a-malware-analysis-lab-with-inetsim-and-burpsuite/)
+2. IWatch (cfr. https://iwatch.sourceforge.net/index.html)
+
+# Part 3: Advanced Static Binary Analysis (~40min)
+In this part, the student will re-analyze the files of **Part 1** and will compare with the results obtained in **Part 1**. Then, the students will investigate stack analysis techniques (e.g. using **-fno-stack-protector** disabling) and advanced binary analysis (e.g. using **radare2**). Decompilation? 
+
+# Part 4: Advanced Dynamic Binary Analysis (~40min)
+In this part, the student will use dynamic reverse-engineering techniques to understand the instruction executed by the binary file studied in **Part 1** (e.g. using the debugging tool **gdb**, **gef** or **gdb-pwn2**). Then, the students will 
+
+## Build the Tutorial (html)
+### Requirements:
 
 ```
 apt-get install python3-sphinx (brew install sphinx-doc for MacOS)
 pip install furo
+```
+### Execution:
+```
+cd doc
+make hmtl
+open _build/html/index.html 
 ```
