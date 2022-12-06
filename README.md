@@ -2,7 +2,7 @@
 
 ## Roadmap:
 ### Part 1: Basic Static Binary Analysis (~40min)
-In this part, the student will staticly study a binary file that has networking (ssl?) and i/o capabilities that has been compiled in 3 different ways:
+In this part, the student will statically study a binary file that has networking (ssl?) and i/o capabilities that has been compiled in 3 different ways:
 1. Normal way
 2. Stripped
 3. Obfuscated/Packed -> UPX
