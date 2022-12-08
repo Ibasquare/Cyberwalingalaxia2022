@@ -154,7 +154,6 @@ void *handle_connection(void *vargp) {
       } else if (strcmp("DROP", buf) == 0) {
         SSL_write(ssl, "Close connection",
                   strlen("Close connection")); /* send reply */
-
       } else {
         SSL_write(ssl, "Invalid Message",
                   strlen("Invalid Message")); /* send reply */
