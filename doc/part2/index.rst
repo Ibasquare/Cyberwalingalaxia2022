@@ -3,42 +3,104 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-==============================
-Part 2: Basic Dynamic Analysis
-==============================
+################################
+Part 2 -- Basic Dynamic Analysis
+################################
+################################
 
-In the previous section, you studied some basic techniques of static binary analysis that allow you to characterize parts of an executable file without actually executing it. As such, these techniques most often involve analyzing the binary code to trace the data and control flows of the executable. Unfortunately, you have seen in the previous section that these techniques can be easily mitigated through obfuscation techniques and that basic tools often fail to provide valuable insights into the fundamental patterns within the binary file. In addition, the compilation of higher-level source code may result in very complex binary file that may be very hard to interpret by such basic tools.
+In the previous section, you studied some basic static binary analysis techniques that allow you to characterize parts of an executable file without actually executing it. As such, these techniques most often involve analyzing the binary code to trace the data and control flows of the executable. Unfortunately, you have seen in the previous section that these techniques can be easily mitigated through obfuscation techniques. In addition, the compilation of higher-level source code may result in very complex binary file that may be very hard to interpret with such basic tools. All in all, such basic analysis technique often fail to provide a complete overview on the actual runtime behavior of binary files.
 
-In this section, you will learn how to complement these techniques with basic dynamic analysis techniques. These techniques will allow you to perform an actual characterization of the binary file of interest at runtime without risking corruption of your testbed. As such, the lab will consist of using state-of-the-art sandboxing tools to ensure the binary file is executed in a controlled environment. These sandboxing tools will allow you to both secure the dynamic analysis of an unknown binary file by preventing the execution of malicious/unwanted instructions on your actual setup and will also prevent any bias in the results that you obtain. Then, you will apply basic dynamic analysis techniques to further characterize the binary file studied at the end of the previous section.
+In this part of the lab, you will tackle such issues using dynamic analysis techniques, thus, completing your toolbox to analyze binary files. The techniques that you will see in this part of the lab will allow your to further characterize the content of binary files by actually studying part of its runtime behavior. In practice, part of this lab will also be dedicated to discover state-of-the-art sandboxing tools that will allow you to execute instruction in a controlled and secure environment. Such tools aims at allowing to perform a runtime analysis of unknown binary file while preventing collateral damages on your testbed, or any device connected to it. In addition, sandboxing tools also ensure that results that you obtain are actually caused by the binary file of interest, and reduce the bias in your observations. 
 
-----------
+*****
+Setup
+*****
+
+For this part of the practical session, you need the following dependencies to be installed: **libssl-dev**, **debootstrap**, **iwatch** and **inetsim**. If they are not installed, you can run the following command:
+
+.. code-block:: console
+
+   sudo apt install libssl-dev debootstrap iwatch inetsim
+
+**********
 SandBoxing
-----------
+**********
 
-In cybersecurity, a sandbox is a controlled, isolated environment that mimics a given target environment. Such tools allows one to execute programs on a mock environment, minimizing the risk of
-compromising live systems, while still providing similar runtime features as a target environment.
+In cybersecurity, a sandbox is a controlled, isolated execution environment that mimics a given target environment. Such tools allows one to execute programs on a mock environment, minimizing the risk of compromising live systems, while still providing similar runtime features as a target environment.
 
 There exists many tool that can be used for sandboxing ranging from virtualization and containerization techniques to simpler isolation mechanisms such as linux namespaces, chroot jails, etc. In this lab, we will focus on two main aspects of sandboxing: network sandboxing and file system sandboxing.
 
-~~~~~~~~~~~~~~~~~~
+.. warning::
+   **DISCLAIMER**: This tutorial is intended for academic purposes, and the methods suggested in these sections should be used with particular care when handling real suspicious/malicious binaries. In particular, not all security policies are enforced by these sandboxing techniques, and many simplifications have been made to meet the timing constraints of this lab.
+
+==================
 Network Sandboxing
-~~~~~~~~~~~~~~~~~~
+==================
 
-~~~~~~~~~~~~~~~~~~~~~~
-File System Sandboxing
-~~~~~~~~~~~~~~~~~~~~~~
+Network sandboxing refers to tools and techniques that restrict programs to generate network traffic within a controlled and isolated network. The idea is to restrict the communication of the program with external entities as well as to prevent any collateral damages resulting from those communications, e.g. DDoS, botnets synchronization, etc. 
 
+=====================
+FileSystem Sandboxing
+=====================
 
-------------------------------------------------
-Basic Dynamic Analysis -- Communication Analysis
-------------------------------------------------
+Filesystem sandboxing refers to tools and techniques that restrict programs to execute operations on a controlled and isolated file system. The idea is to restrict access to sensitive data and prevent collateral damages when running untrusted programs while still allowing them to proceed with their execution.
 
-----------------------------------------------
-Basic Dynamic Analysis -- File System Analysis
-----------------------------------------------
+Most Unix and Unix-like systems include some sort of system call or other mechanism that can be used to provided file system sandboxing capabilities with various level of isolation between the host and the sandbox. In particular, **chroot** is a unix system call that changes the apparent root directory for a given running process as well as its children. As such, a program that is run in a chrooted environment will sees a normal filesystem while it in fact has a restricted access to a virtual root directory. The goal is to prevent the process from accessing files outside its sandbox. For instance, if you run a program ``foo`` in a chrooted environment, and that this program exploit a vulnerability that allows him to overwrite files in a protected directory, the program will perceive a **/** directory and will write relative to that directory, while on the real filesystem it has only access to a virtual root located in **/path/to/jail** and has no access to the real **/** directory.
 
-TODO
+.. image:: images/chroot-jail.png
+   :width: 600
+   :align: center
+
+**Using chroot and deboostrap to setup a filesystem sandbox** The environment that we will create is known as “**chroot jail**” or “**jailed directory**”. 
+
+.. note::
+   For more information on **chroot** and **deboostrap** please consult their manpage.
+
+First, we will create a minimal, internally-consistent environment in such a way that the program that we will execute thinks that it is run on a legit system. To do so, we will make use of **deboostrap** to install a Debian-like base system into a subdirectory. The following command create a minimal virtual root directory located **/path/to/jail** based on the **amd64** architecture: 
+
+.. code-block:: console
+
+   sudo debootstrap --arch=amd64 --variant=minbase sid /path/to/jail-directory
+
+Then, you can simply copy the file that you would like to analyze in the sandbox using:
+
+.. code-block:: console
+
+   sudo cp /path/to/executable /path/to/jail-directory/home/
+
+Finally, you can execute the program inside the chrooted environment using:
+
+.. code-block:: console
+
+   sudo chroot /path/to/jail-directory .//home/executable
+
+.. note::
+   You may need libraries to execute your program. For instance, the library **libssl-dev** can be installed in the chrooted environement using:
+.. code-block:: console
+
+   sudo chroot /path/to/jail-directory apt install libssl-dev
+
+Now, any modification induced by the execution of the binary file will be performed on the mocked file system.
+
+**************************************************
+Basic Dynamic Analysis -- Communication Monitoring
+**************************************************
+
+*******************************************************
+Basic Dynamic Analysis -- File System Events Monitoring
+*******************************************************
+In this part of the lab, you are asked to monitor any file system event, e.g. file access, creation, etc, issued by the binary file  already studied in **Part 1**. To do so, you are expected to make use of a chrooted environement that you can monitor using **iwatch**. **iwatch** is a realtime filesystem monitoring program, based on **inotify** that allows you to track file system events. As such, you can monitor events in your sandbox using the following command:
+
+.. code-block:: console
+
+   sudo iwatch -r /path/to/jail-directory
+
+*********************
+Additional Ressources
+*********************
+
+* For more information on file system sandboxing techniques, their drawbacks, and some benchmarking, please read the following `article <https://lwn.net/Articles/803890/>`_.
 
 .. toctree::
    :maxdepth: 2
-
+   :numbered:

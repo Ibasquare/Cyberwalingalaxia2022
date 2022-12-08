@@ -3,9 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-================================
-Part 3: Advanced Static Analysis
-================================
+##################################
+Part 3 -- Advanced Static Analysis
+##################################
+##################################
 
 
 .. toctree::
