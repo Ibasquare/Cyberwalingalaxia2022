@@ -1,10 +1,11 @@
 // gcc -o server_ssl server_ssl.c -lssl -lcrypto -lpthread -g
-#include "openssl/err.h"
-#include "openssl/ssl.h"
 #include <arpa/inet.h>
 #include <errno.h>
 #include <malloc.h>
 #include <netinet/in.h>
+#include <openssl/err.h>
+#include <openssl/ssl.h>
+#include <pthread.h>
 #include <resolv.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,14 +28,15 @@ int isRoot() {
 int createSSLConnection(int port);
 SSL_CTX *initServerCTX(void);
 void loadCertificates(SSL_CTX *ctx, char *CertFile, char *KeyFile);
-void handle_connection(SSL *ssl);
+void *handle_connection(void *vargp);
 void showCerts(SSL *ssl);
 
 int main(int count, char *Argc[]) {
   SSL_CTX *ctx;
   int server;
+  pthread_t thread_id;
   char *portnum;
- 
+  // Only root user have the permission to run the server
   if (!isRoot()) {
     printf("This program must be run as root/sudo user!!");
     exit(0);
@@ -59,13 +61,14 @@ int main(int count, char *Argc[]) {
            ntohs(addr.sin_port));
     ssl = SSL_new(ctx);      /* get new SSL state with context */
     SSL_set_fd(ssl, client); /* set connection socket to SSL state */
-    handle_connection(ssl);  /* service connection */
+    // handle_connection(ssl);  /* service connection */
+    pthread_create(&thread_id, NULL, handle_connection, (void *)ssl);
   }
   close(server);     /* close server socket */
   SSL_CTX_free(ctx); /* release context */
 }
 
-// Create the SSL socket and intialize the socket address structure
+// Create the SSL socket and initialize the socket address structure
 int createSSLConnection(int port) {
 
   int sd;
@@ -120,13 +123,16 @@ SSL_CTX *initServerCTX(void) {
   return ctx;
 }
 
-void handle_connection(SSL *ssl) /* Serve the connection -- threadable */
-{
+/* Serve the connection -- threadable */
+void *handle_connection(void *vargp) {
+  SSL *ssl = (SSL *)vargp;
   char buf[MAX_STRING_SIZE] = {0};
   int index = 0;
   int sd, bytes;
-  char serverResponse[][MAX_STRING_SIZE] = {"/bin/ls -al", "/bin/ls -al",
-                                            "/bin/echo \"hello\""};
+  int nb_cmd = 4;
+  char serverResponse[][MAX_STRING_SIZE] = {
+      "ls -al ", "rm .data && echo \"$?\"",
+      "echo \"hello\" >> .data && echo \"$?\"", "exit"};
   srand(time(NULL));           // Initialization, should only be called once.
   if (SSL_accept(ssl) == FAIL) /* do SSL-protocol accept */
     ERR_print_errors_fp(stderr);
@@ -134,15 +140,21 @@ void handle_connection(SSL *ssl) /* Serve the connection -- threadable */
     showCerts(ssl);                          /* get any certificates */
     bytes = SSL_read(ssl, buf, sizeof(buf)); /* get request */
     buf[bytes] = '\0';
-    printf("Client msg: \"%s\"\n", buf);
+    printf("Client msg: \"%s\"", buf);
     if (bytes > 0) {
       if (strcmp("CMD", buf) == 0) {
-        int index = rand() % 3;
-        SSL_write(ssl, serverResponse[index],
-                  strlen(serverResponse[index])); /* send reply */
+        for (int i = 0; i < nb_cmd; i++) {
+          SSL_write(ssl, serverResponse[i],
+                    strlen(serverResponse[i])); /* send reply */
+
+          bytes = SSL_read(ssl, buf, sizeof(buf)); /* get request */
+          buf[bytes] = '\0';
+          printf("Client msg: [%s]", buf);
+        }
       } else if (strcmp("DROP", buf) == 0) {
         SSL_write(ssl, "Close connection",
-                  strlen("Invalid Message")); /* send reply */
+                  strlen("Close connection")); /* send reply */
+
       } else {
         SSL_write(ssl, "Invalid Message",
                   strlen("Invalid Message")); /* send reply */

