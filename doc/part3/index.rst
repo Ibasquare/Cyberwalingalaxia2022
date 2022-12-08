@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ================================
-Part 2: Advanced Static Analysis
+Part 3: Advanced Static Analysis
 ================================
 
 
