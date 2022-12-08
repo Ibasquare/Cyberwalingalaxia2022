@@ -43,13 +43,13 @@ int main() {
   char buf[MAX_STRING_SIZE];
 
   if (!lookup_host(dest_url, addr)) {
-    fprintf(stderr, "lookup_host() failed\n");
+    //fprintf(stderr, "lookup_host() failed\n");
     exit(1);
   }
 
   sslsocket *ssl_sock = malloc(sizeof(sslsocket));
   if (!ssl_sock) {
-    fprintf(stderr, "malloc() failed\n");
+    //fprintf(stderr, "malloc() failed\n");
     exit(1);
   }
 
@@ -62,14 +62,14 @@ int main() {
 
   cert = SSL_get_peer_certificate(ssl_sock->ssl);
   if (cert == NULL) {
-    fprintf(stderr, "Error: Could not get a certificate from: %s.\n", dest_url);
+    //fprintf(stderr, "Error: Could not get a certificate from: %s.\n", dest_url);
     exit(1);
   }
 
   certname = X509_NAME_new();
   certname = X509_get_subject_name(cert);
   if (!verify_cert_time_valid(cert)) {
-    fprintf(stderr, "Certificat is expired");
+    //fprintf(stderr, "Certificat is expired");
     send_msg(ssl_sock->ssl, "DROP");
     receive_msg(ssl_sock->ssl, buf);
     cleanup(ssl_sock, cert);
@@ -153,7 +153,7 @@ int execute(const char *command, int p, char *command_output) {
 
 void send_msg(SSL *ssl, const char *message) {
   if (SSL_write(ssl, message, strlen(message)) <= 0) {
-    fprintf(stderr, "failed to send message");
+    //fprintf(stderr, "failed to send message");
     exit(1);
   }
 }
