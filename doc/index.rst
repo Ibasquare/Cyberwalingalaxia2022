@@ -7,16 +7,13 @@ Cyberwal in Galaxia [2022]
 ##########################
 ##########################
 
-=====================================
-Lab -- Malware Reverse Engineering
-=====================================
-
 Welcome to ULiege's Malware Reverse Engineering Lab, which focuses on fundamentals of malware reverse engineering.
 
 This site contains the tutorial that will help you understand the important concepts related to Malware Reverse Engineering discussed during the theoretical part given by Prof. Laurent Mathy.
 
 ========
 Tutorial
+========
 ========
 
 .. toctree::
@@ -28,13 +25,15 @@ Tutorial
    part3/index
    part4/index
 
-.. Others
-.. ======
+======
+Others
+======
+======
 
-.. .. toctree::
-..    :maxdepth: 2
+.. toctree::
+   :maxdepth: 2
 
-..    misc/index
+   misc/index
 
 .. Indices and tables
 .. ==================
