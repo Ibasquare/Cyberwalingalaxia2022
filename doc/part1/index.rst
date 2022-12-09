@@ -7,8 +7,17 @@
 Part 1: Basic Static Analysis
 =============================
 
-TODO
 
-.. toctree::
-   :maxdepth: 2
+Lab material
+------------
 
+In this lab, you will use basic static analysis techniques on a set of binaries whose source code you do not have in order to achieve a basic understanding of their logic. 
+
+All 3 binary files can be downloaded here.
+
+Lab tools
+---------
+
+All tools listed below are readily available in the provided reference virtual machine.
+
+*
