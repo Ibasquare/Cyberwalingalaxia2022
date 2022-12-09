@@ -33,7 +33,7 @@ The nolibc.c contains equivalent code. Its only difference is that it does not r
 
 It can be compiled without glibc with the command::
 
-	gcc nolibc.c -o nolibc
+	gcc -nostdlib nolibc.c -o nolibc
 	
 Which of these 2 binaries will get the smallest binary size? Why? Check your theory with objdump and/or Ghidra. Could the nolibc binary be adapted to print "Hello world". Could it do it the standard way using printf?
 
