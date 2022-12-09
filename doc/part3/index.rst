@@ -69,4 +69,16 @@ Have a look at the sum and rec_sum functions. The rec_sum function is equivalent
 * In rec_sum, can you identify the structure corresponding to the if statement in the assembly code? How is its logic implemented?
 * In each case, is it obvious from the decompiled code that you are iterating over an array? Explain.
 
-We are now going to study the impact of 
+Compiler optimizations
+----------------------
+
+We are now going to study the impact of compiler optimization on the readability of disassembled and decompiled code. Recompile funcs.c with optimizations using the following command.::
+
+	gcc funcs.c -O3 -o func2
+	
+Drag the resulting binary into Ghidra for analysis and comparison with its unoptimized counterpart.
+
+* Have a look at the main() function. What do you observe? Could the compiler have generated the same instructions for the main function if the array was passed as user input? Why (not)?
+* Compare the sum3() and sum() functions. In the unoptimized binary, they were very similar. What technique was applied to sum3() that could not be applied to sum()? Explain.
+* Compare sum_rec() with sum() and its unoptimized version. What is the most notable thing about the optimization(s) that were applied?
+* Compare sum() and sum_rec()'s optimized and unoptimized versions in terms of readability? What is the impact of optimizations on the ease to perform binary analysis? 
