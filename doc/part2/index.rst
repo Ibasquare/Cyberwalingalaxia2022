@@ -161,7 +161,3 @@ Additional Ressources
 *********************
 
 * For more information on file system sandboxing techniques, their drawbacks, and some benchmarking, please read the following `article <https://lwn.net/Articles/803890/>`_.
-
-.. toctree::
-   :maxdepth: 2
-   :numbered:

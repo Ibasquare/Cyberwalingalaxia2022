@@ -9,7 +9,3 @@ Part 1 -- Basic Static Analysis
 ###############################
 
 TODO
-
-.. toctree::
-   :maxdepth: 2
-
