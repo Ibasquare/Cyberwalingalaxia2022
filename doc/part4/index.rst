@@ -6,7 +6,6 @@
 ###################################
 Part 4 -- Advanced Dynamic Analysis
 ###################################
-###################################
 
 In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the TODO_NAME binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior without executing them.
 
@@ -33,7 +32,7 @@ After running your program with ``gdb program`` where program is an executable p
    p $pc                 # display the value of pc
    set $pc = addr        # set the value of pc to a specific address
 
-If you need, you can use the `help` command to list all possible commands. There exists also various cheat-sheets available online such as `GDB_cheatsheet <https://gist.github.com/rkubik/b96c23bd8ed58333de37f2b8cd052c30>`_ or `GDB_cheatsheet <https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf>`_  
+If you need, you can use the `help` command to list all possible commands. There exists also various cheat-sheets available online such as `GDB_cheatsheet1 <https://gist.github.com/rkubik/b96c23bd8ed58333de37f2b8cd052c30>`_ or `GDB_cheatsheet2 <https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf>`_  
 
 ----------
 Objectives
@@ -45,7 +44,9 @@ The study of the malicious sample may be divided in the following parts:
 
 2. After intercepting these messages, you notice that these commands are executed on your machine. Try to intercept all the different commands by preventing their execution on your machine. How did you do that with gdb?
 
-3. For this last part, the idea is to modify the binary in order to be able to display the commands without executing them when this last one is executed without gdb. You can use tools like ``ghidra`` or ``hexedit`` to modify the content of the binary.
+3. For this part, the idea is to modify the binary in order to be able to display the commands without executing them when this last one is executed without gdb. You can use tools like ``ghidra`` or ``hexedit`` to modify the content of the binary. Make sure to do a **backup** of your sample before modifying it.
+
+4. For this last part, take the previous backup of the binary (it must be unmodified). Your task is to avoid the execution of the remote commands by displaying them instead. For this task, you **must not use** gdb or modify the binary file. To get a bit of help, it would be interesting to have a look at `LD_PRELOAD <https://man7.org/linux/man-pages/man8/ld.so.8.html>`_.
 
 
-
+Good Luck.
