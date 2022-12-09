@@ -120,8 +120,8 @@ Communication Monitoring with Tcpdump
 The first step of this investigation will be to create a simple network namespace. Then, we will need to perform some configuration to ensure dns queries are issued by the program:
 
 .. code-block:: console
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:;
-+;; ;  sudo mkdir /etc/netns/network-jail
+   
+   sudo mkdir /etc/netns/network-jail
    echo 'nameserver 127.0.0.1' | sudo tee -a "/etc/netns/network-jail/resolv.conf"
    sudo ip netns exec network-jail ip link set dev lo up
 
@@ -137,6 +137,7 @@ Analyse the traffic that you capture. You should be able to get the hostname of 
 ===============================================
 Communication Monitoring with Tcpdump & InetSim
 ===============================================
+
 The second step of this investigation will be to perform the same setup but also using **inetsim**. Thus, the last step is a bit modified:
 
 .. code-block:: console
@@ -146,6 +147,10 @@ The second step of this investigation will be to perform the same setup but also
    terminal3> sudo ip netns exec network-jail ./executable
 
 Analyse the traffic that you capture.
+
+===============================================
+Communication Monitoring with Tcpdump & InetSim
+===============================================
 
 *******************************************************
 Basic Dynamic Analysis -- File System Events Monitoring
