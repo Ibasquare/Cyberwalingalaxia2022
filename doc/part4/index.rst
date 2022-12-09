@@ -46,7 +46,7 @@ The study of the malicious sample may be divided in the following parts:
 
 3. For this part, the idea is to modify the binary in order to be able to display the commands without executing them when this last one is executed without gdb. You can use tools like ``ghidra`` or ``hexedit`` to modify the content of the binary. Make sure to do a **backup** of your sample before modifying it.
 
-4. For this last part, take the previous backup of the binary (it must be unmodified). Your task is to avoid the execution of the remote commands by displaying them instead. For this task, you **must not use** gdb or modify the binary file. To get a bit of help, it would be interesting to have a look at `LD_PRELOAD < https://man7.org/linux/man-pages/man8/ld.so.8.html>`_.
+4. For this last part, take the previous backup of the binary (it must be unmodified). Your task is to avoid the execution of the remote commands by displaying them instead. For this task, you **must not use** gdb or modify the binary file. To get a bit of help, it would be interesting to have a look at `LD_PRELOAD <https://man7.org/linux/man-pages/man8/ld.so.8.html>`_.
 
 
 Good Luck.
