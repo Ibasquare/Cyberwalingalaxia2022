@@ -7,7 +7,6 @@
 ##################################
 Part 3 -- Advanced Static Analysis
 ##################################
-##################################
 
   
 Ghidra: a static binary analysis tool
@@ -49,22 +48,22 @@ Compile it with gcc.::
 
 	gcc funcs.c -o func1
 
-You can now drag the func1 binary in you Ghidra project window to explore and analyze the result is contents. Have a look at the main function. 
+You can now drag the func1 binary in you Ghidra project window to explore and analyze the result is contents. Have a look at the main() function. 
 
 * What do the function calls look like? How are arguments passed and how is the return value obtained?
 * Where are the local variables stored? In particular, where is the array stored and in which form? How does that look in the decompiled code?
 * Is there anything surprising about the arguments passed to the functions in the decompiled code? If one of the values passed to the function seems odd, can you explain why it makes sense and how it will be equivalent to the source code?
 
-Have a look at the sum3 function.
+Have a look at the sum3() function.
 
 * Can you identify the assembly structure corresponding to the for loop? How is its logic implemented?
 * In the decompiled code, what does the access to the array's values look like? Why is it not more natural? Which information is the decompiler missing to write more readable code?
 * How does the function return a value? What is the return convention?
 
-Have a look at the sum and rec_sum functions. The rec_sum function is equivalent to the sum function but computes the sum of the array's elements recursively.
+Have a look at the sum() and rec_sum() functions. The rec_sum() function is equivalent to the sum() function but computes the sum of the array's elements recursively.
 
 * What does the array look like in each case (both in assembly and decompiled code)?
-* In rec_sum, can you identify the structure corresponding to the if statement in the assembly code? How is its logic implemented?
+* In rec_sum(), can you identify the structure corresponding to the if statement in the assembly code? How is its logic implemented?
 * In each case, is it obvious from the decompiled code that you are iterating over an array? Explain.
 
 Compiler optimizations
