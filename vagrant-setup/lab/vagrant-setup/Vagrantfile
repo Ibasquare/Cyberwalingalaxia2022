@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  (1..10).each do |i|
+    config.vm.define "node-#{i}" do |node|
+      node.vm.box = "kalilinux/rolling"
+
+      node.vm.provider "virtualbox" do |vb_node|
+        vb_node.gui = false
+        vb_node.memory = 2048
+        #vb_node.cpus = 2
+      end
+
+
+      node.vm.network "private_network", ip: "192.168.33.#{i+20}"
+      node.vm.network "forwarded_port", guest: 22, host: "#{i+3}022"
+
+      node.vm.provision "file", source: "~/add-student-user-script.sh", destination: "add-student-user-script.sh"
+      node.vm.provision "folder", source: "~/lab", destination: "lab"
+      node.vm.provision "shell", :path => 'vagrant-setup.sh', :args => [i] 
+    end
+  end
+end
