@@ -8,9 +8,6 @@ Part 3: Advanced Static Analysis
 ================================
 
 
-.. toctree::
-   :maxdepth: 2
-   
   
 Ghidra: a static binary analysis tool
 -------------------------------------
