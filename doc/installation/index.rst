@@ -3,15 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+#######################
 Setup and Installation:
-=======================
+#######################
+#######################
 
-In this chapter, you will learn to setup the basic environment by installing Kali Linux as VM and then to login to your VM by ssh.
+In this section, you will setup the environment needed for thi session.
 
 .. warning:: If you already have a Linux Virtual Machine, you can skip this part nevertheless note that you will need to download the tools mentioned in the different parts of the tutorial if your machine is not Kali Linux. Most tools can be obtained via ``apt install``.
 
 .. toctree::
-   :maxdepth: 2
 
    vmsetup
    macsetup

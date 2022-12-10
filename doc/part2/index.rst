@@ -12,9 +12,9 @@ In the previous section, you studied some basic static binary analysis technique
 
 In this part of the lab, you will tackle such issues using dynamic analysis techniques, thus, completing your toolbox to analyze binary files. The techniques that you will see in this part of the lab will allow your to further characterize the content of binary files by actually studying part of its runtime behavior. In practice, part of this lab will also be dedicated to discover state-of-the-art sandboxing tools that will allow you to execute instruction in a controlled and secure environment. Such tools aims at allowing to perform a runtime analysis of unknown binary file while preventing collateral damages on your testbed, or any device connected to it. In addition, sandboxing tools also ensure that results that you obtain are actually caused by the binary file of interest, and reduce the bias in your observations. 
 
-*****
-Setup
-*****
+************
+Dependencies
+************
 
 For this part of the practical session, you need the following dependencies to be installed: **libssl-dev**, **debootstrap**, **iwatch** and **inetsim**. If they are not installed, you can run the following commands:
 

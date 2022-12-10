@@ -1,4 +1,6 @@
+#####################################################
 Setting Up a VM on a recent Mac (with m1 or m2 chips)
+#####################################################
 #####################################################
 
 .. danger:: Perform these steps only if you have a recent Macbook with a m1 or m2 chip. Otherwise use `VirtualBox <vmsetup.html>`_ instead. Note that we propose two solutions:
@@ -6,6 +8,8 @@ Setting Up a VM on a recent Mac (with m1 or m2 chips)
   1. Connect to a remote VM already configured (**recommended**).
   2. If the previous approach does not work, you can use qemu as emulator to run Kali (**but it is slow**).
 
+
+.. _target connect to a remote VM:
 
 Connect to a remote VM (Kali) already setup
 ===========================================
