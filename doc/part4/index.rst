@@ -7,9 +7,11 @@
 Part 4 -- Advanced Dynamic Analysis
 ###################################
 
-In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the TODO_NAME binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior.
+In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the *malware* binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior.
 
 In order to perform theses tasks, we will rely on a debugger (in our case, the Gnu Project Debugger ``GDB``). Unlike static analysis, we will execute the binary file by debugging it. The file is not actually malicious (the commands are harmless).
+
+.. danger:: If you do not have access to Internet, make sure to run **inetsim** first (configured as local DNS - see Part 2) and run the binary with the ``--locahost`` argument.
 
 ------------------------
 The Gnu Project Debugger
@@ -41,7 +43,7 @@ Objectives
 
 The study of the malicious sample may be divided in the following parts:
 
-1. The first part consists of executing the TODO_NAME binary file with gdb in order to intercept and see the content of the various messages exchanged with the remote server. What is the content of these messages? In addition, what is the remote address of the server?
+1. The first part consists of executing the *malware* binary file with gdb in order to intercept and see the content of the various messages exchanged with the remote server. What is the content of these messages? In addition, what is the remote address of the server?
 
 2. After intercepting these messages, you notice that these commands are being executed on your machine. Try to intercept all the different commands by preventing  them from being executed. How did you do this with gdb?
 

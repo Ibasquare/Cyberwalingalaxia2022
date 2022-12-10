@@ -47,16 +47,6 @@ Tutorial
    part3/index
    part4/index
 
-======
-Others
-======
-======
-
-.. toctree::
-   :maxdepth: 2
-
-   misc/index
-
 .. Indices and tables
 .. ==================
 
