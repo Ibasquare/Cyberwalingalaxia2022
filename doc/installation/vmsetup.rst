@@ -6,13 +6,13 @@ You need to have a working virtual machine for the lab work therefore you must f
 Installing VirtualBox
 ---------------------
 
-.. danger:: If you have a recent Macbook (with a m1 chip), skip VirtualBox steps and go `here <macsetup.html>`_ instead.
+.. danger:: If you have a recent Macbook (with m1 or m2 chip), skip VirtualBox steps and go `here <macsetup.html>`_ instead.
 
 First download the VirtualBox installer from `official web page <https://www.virtualbox.org/>`_ according to your OS. After finishing the download, launch the installer and follow the instruction of the installer.
 VirtualBox is a virtualization software which allows you to create VMs that run OSes including Linux on your computer without removing your currently-using OSes such as Windows and macOS. In this course, we execute Linux on the VM made by VirtualBox.
 
-Download the reference VM image
--------------------------------
+Download the Kali VM image
+--------------------------
 
 Then download the reference Kali Linux image from `this link <https://www.kali.org/get-kali/#kali-virtual-machines>`_.
 The image contains Kali Linux 64bits. The default user of the VM image is ``kali``. The password for the user is also ``kali``.
@@ -20,13 +20,13 @@ The image contains Kali Linux 64bits. The default user of the VM image is ``kali
 Launch the downloaded VM image on VirtualBox
 --------------------------------------------
 
-We will create a new virtual machine based on the reference image:
+Note that the following screenshots use Ubuntu and not Kali Linux nevertheless the procedure is exactly the same.
 
 1. Click on the "New" icon in the toolbar to launch the creation wizard and create a new VM.
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/1.png
 
-2. The first thing to do is to define the name, the type of virtual machine and the version you want to create. In our case, we chose to name the machine ``Ubuntu``. The type will be Linux and the Ubuntu **32 bits** version.
+2. The first thing to do is to define the name, the type of virtual machine and the version you want to create. In our case, we chose to name the machine ``Kali``.
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/2.png
 

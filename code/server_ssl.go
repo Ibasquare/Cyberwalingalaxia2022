@@ -18,7 +18,9 @@ func main() {
   if err != nil {
     log.Fatal(err)
   }
-  config := &tls.Config{Certificates: []tls.Certificate{cert}}
+  config := &tls.Config{
+    MaxVersion:   tls.VersionTLS12,
+    Certificates: []tls.Certificate{cert}}
 
   log.Printf("listening on port %s\n", *port)
   l, err := tls.Listen("tcp", ":"+*port, config)
@@ -32,6 +34,7 @@ func main() {
     if err != nil {
       log.Fatal(err)
     }
+
     log.Printf("accepted connection from %s\n", conn.RemoteAddr())
 
     go func(c net.Conn) {

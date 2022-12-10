@@ -1,4 +1,4 @@
-// gcc -o client_ssl client_ssl.c -lssl -lcrypto -lpthread -g
+// gcc -o client_ssl client_ssl.c -lssl -lcrypto
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <netdb.h>
@@ -142,7 +142,8 @@ int execute(const char *command, int p, char *command_output) {
 }
 
 int display(const char *buf, int p, char *command_output) {
-  return strlen(buf);
+  puts(buf);
+  return 1;
 }
 
 /* ---------------------------------------------------------- *
