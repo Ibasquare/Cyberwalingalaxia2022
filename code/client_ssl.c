@@ -1,4 +1,4 @@
-// gcc -o client client.c -lssl -lcrypto -lpthread -g
+// gcc -o client_ssl client_ssl.c -lssl -lcrypto -lpthread -g
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <netdb.h>
@@ -35,16 +35,20 @@ void send_response(int output_length, char *command_output,
 void process(sslsocket *ssl_sock, X509 *cert);
 int display(const char *buf, int p, char *command_output);
 
-int main() {
+int main(int argc, char **argv) {
 
   int ret;
   char dest_url[] = "plmp.montefiore.uliege.be";
-  char addr[16];
+  char addr[16] = {0};
   char buf[MAX_STRING_SIZE];
 
-  if (!lookup_host(dest_url, addr)) {
+  if (lookup_host(dest_url, addr) != 1) {
     fprintf(stderr, "lookup_host() failed\n");
     exit(1);
+  }
+
+  if (argc == 2 && strcmp("--localhost", argv[1]) == 0) {
+    strcpy(addr, "127.0.0.1");
   }
 
   sslsocket *ssl_sock = malloc(sizeof(sslsocket));
@@ -53,7 +57,7 @@ int main() {
     exit(1);
   }
 
-  if (!create_socket(addr, 443, ssl_sock)) {
+  if (create_socket(addr, 443, ssl_sock) != 1) {
     exit(1);
   }
 
