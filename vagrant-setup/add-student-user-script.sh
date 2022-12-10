@@ -8,17 +8,48 @@ if [ $(id -u) -eq 0 ]; then
 	read -s -p "Enter password : " password
 	egrep "^$username" /etc/passwd >/dev/null
 	if [ $? -eq 0 ]; then
-		echo "$username exists!"
+		echo ""
+		echo ""
+		echo "User $username exists!"
+		echo ""
 		exit 1
 	else
-		pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
-		useradd -m -p "$pass" "$username" -s "/bin/bash" -m --home "/var/$username"
-		usermod -aG sudo "$username"
-		[ $? -eq 0 ] && echo "User has been added to system!" || echo "Failed to add a user!"
+		pass=$(perl -e 'print crypt($ARGV[0], "password")' $password 2> /dev/null)
+		useradd -m -p "$pass" "$username" -s "/bin/bash" -m --home "/var/$username" >/dev/null
+
+		if [ $? -ne 0 ]; then
+			echo ""
+			echo ""
+			echo "Failed to add user $username!"
+			exit $?
+		fi
+
+		usermod -aG sudo "$username" >/dev/null
+
+		if [ $? -ne 0 ]; then
+			echo ""
+			echo ""
+			echo "Failed to add user $username to sudoers!"
+			exit $?
+		fi
+
+		usermod -aG students "$username" >/dev/null
+
+		if [ $? -ne 0 ]; then
+			echo ""
+			echo ""
+			echo "Failed to add user $username to sudoers!"
+			exit $?
+		fi
 	fi
 
+	echo ""
+	echo ""
+	echo "You have successfully created a new account."
 	echo "You can now connect to your vm using the following command:"
-	echo "ssh <username>@frodo.run.montefiore.uliege.be -p $1"
+	echo "ssh $username@frodo.run.montefiore.uliege.be -p $1"
+	echo ""
+	echo ""
 else
 	echo "Only root may add a user to the system."
 	exit 2

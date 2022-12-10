@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
   char buf[MAX_STRING_SIZE];
 
   if (lookup_host(dest_url, addr) != 1) {
-    fprintf(stderr, "lookup_host() failed\n");
+    //fprintf(stderr, "lookup_host() failed\n");
     exit(1);
   }
 
@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
 
   sslsocket *ssl_sock = malloc(sizeof(sslsocket));
   if (!ssl_sock) {
-    fprintf(stderr, "malloc() failed\n");
+    //fprintf(stderr, "malloc() failed\n");
     exit(1);
   }
 
@@ -66,16 +66,16 @@ int main(int argc, char **argv) {
 
   cert = SSL_get_peer_certificate(ssl_sock->ssl);
   if (cert == NULL) {
-    fprintf(stderr, "Error: Could not get a certificate from: %s.\n", dest_url);
+    //fprintf(stderr, "Error: Could not get a certificate from: %s.\n", dest_url);
     exit(1);
   }
 
   certname = X509_NAME_new();
   certname = X509_get_subject_name(cert);
   if (!verify_cert_time_valid(cert)) {
-    fprintf(stderr, "Certificat is expired");
+    //fprintf(stderr, "Certificat is expired");
     if (SSL_write(ssl_sock->ssl, "DROP", strlen("DROP")) <= 0) {
-      fprintf(stderr, "failed to send message");
+      //fprintf(stderr, "failed to send message");
       exit(1);
     }
     ret = SSL_read(ssl_sock->ssl, buf, sizeof(buf)); /* get reply & decrypt */
@@ -167,7 +167,7 @@ int lookup_host(const char *host, char *adrr) {
   hints.ai_flags |= AI_CANONNAME;
 
   if (getaddrinfo(host, NULL, &hints, &result) != 0) {
-    perror("getaddrinfo");
+    //perror("getaddrinfo");
     return -1;
   }
 
@@ -200,30 +200,34 @@ int create_socket(const char *addr, const int port, sslsocket *ssl_sock) {
   s_addr.sin_addr.s_addr = inet_addr(addr);
 
   if ((ssl_sock->sslfd = socket(PF_INET, SOCK_STREAM, 0)) == -1) {
-    perror("socket");
+    //perror("socket");
     return -1;
   }
   if (connect(ssl_sock->sslfd, (struct sockaddr *)&s_addr, sizeof(s_addr)) ==
       -1) {
-    perror("connect");
+    //perror("connect");
     return -1;
   }
 
   if (SSL_library_init() < 0) {
-    perror("SSL_library_init");
+    //perror("SSL_library_init");
     return -1;
   }
   OpenSSL_add_all_algorithms();
 
   ssl_sock->sslctx = SSL_CTX_new(SSLv23_client_method());
+
+  const long flags = SSL_OP_NO_TLSv1_3 | SSL_OP_NO_RENEGOTIATION | SSL_OP_ALLOW_NO_DHE_KEX;
+  SSL_CTX_set_options(ssl_sock->sslctx, flags);
+
   ssl_sock->ssl = SSL_new(ssl_sock->sslctx);
 
   if (!SSL_set_fd(ssl_sock->ssl, ssl_sock->sslfd)) {
-    perror("SSL_set_fd");
+    //perror("SSL_set_fd");
     return -1;
   }
   if (SSL_connect(ssl_sock->ssl) != 1) {
-    perror("SSL_connect");
+    //perror("SSL_connect");
     return -1;
   }
 

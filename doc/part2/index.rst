@@ -146,7 +146,7 @@ The second step of this investigation will be to perform the same setup but also
    terminal2> sudo ip netns exec network-jail tcpdump -w traffic.pcap
    terminal3> sudo ip netns exec network-jail ./executable
 
-Analyse the traffic that you capture. In particular, you should be able to get a clear (not encrypted) view of the packets sent by the client. To do so, you may want to use the wireshark capability allowing you to decrypt TLS encrypted traffic using a given pre-master key (Edit->Preferences->Protocols->TLS). The certificate used by **inetsim** for its mock https server may be located in **/usr/share/inetsim/data/certs/**. 
+Analyse the traffic that you capture. In particular, you should be able to get a clear (decrypted) view of the packets sent by the client. To do so, you may want to use the wireshark capability allowing you to decrypt TLS encrypted traffic using a given pre-master key (Edit->Preferences->Protocols->TLS). The certificate used by **inetsim** for its mock https server may be located in **/usr/share/inetsim/data/certs/**. 
 
 *******************************************************
 Basic Dynamic Analysis -- File System Events Monitoring
