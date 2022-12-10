@@ -7,23 +7,24 @@
 Part 4 -- Advanced Dynamic Analysis
 ###################################
 
-In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the TODO_NAME binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior without executing them.
+In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the TODO_NAME binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior.
 
-In order to perform theses tasks, we will rely on a debugger (in our case, the Gnu Project Debugger `GDB`). Unlike static analysis, we will execute the binary file by debugging it. The file is not actually malicious (the commands are harmless).
+In order to perform theses tasks, we will rely on a debugger (in our case, the Gnu Project Debugger ``GDB``). Unlike static analysis, we will execute the binary file by debugging it. The file is not actually malicious (the commands are harmless).
 
 ------------------------
 The Gnu Project Debugger
 ------------------------
 
-The Gnu Project Debugger (GDB) can be used to study the behavior of a running program by examining its content (e.g., stack, variables, registers, ...) . It is also able to disassemble some code, i.e., showing the assembly code corresponding to the instructions.
+The Gnu Project Debugger can be used to study the behavior of a running program by examining its content (e.g., stack, variables, registers, ...) . It is also able to disassemble some code, i.e., showing the assembly code corresponding to the instructions.
 
-Using GDB must be quite familiar to you nevertheless, we will give a very brief reminder with the most important commands that you may use for this part. Note that you can also install `GDB gef <https://hugsy.github.io/gef/>`_ or `GDB pwndbg <hhttps://github.com/pwndbg/pwndbg>`_ to have GDB plug-in that makes debugging with GDB more intuitive (and fun?).
+You should be familiar with the use of GDB, but we will briefly review the most important commands you can use in this section. Note that you can also install `GDB gef <https://hugsy.github.io/gef/>`_ or `GDB pwndbg <hhttps://github.com/pwndbg/pwndbg>`_ to have GDB plug-in that makes debugging with GDB more intuitive (and fun?).
 
 After running your program with ``gdb program`` where program is an executable program, you can use the following commands::
 
    run                   # run the program
    disassemble method    # disassembles a specified function or a function fragment
-   break line_nb         # insert breakpoint at line_nb (can be a method)
+   break line_nb|method  # insert breakpoint at line_nb (can be a method)
+   info functions        # list all functions
    step                  # continue running your program until control reaches a different source line
    next                  # continue to the next source line in the current (innermost) stack frame
    continue              # continue execution until the next breakpoint.
@@ -40,13 +41,12 @@ Objectives
 
 The study of the malicious sample may be divided in the following parts:
 
-1. The first part is to run the TODO_NAME binary file with gdb in order to intercept and see the content of the different messages exchanged with the remote server. What is the content of these messages? In addition, what is the remote address of the server?
+1. The first part consists of executing the TODO_NAME binary file with gdb in order to intercept and see the content of the various messages exchanged with the remote server. What is the content of these messages? In addition, what is the remote address of the server?
 
-2. After intercepting these messages, you notice that these commands are executed on your machine. Try to intercept all the different commands by preventing their execution on your machine. How did you do that with gdb?
+2. After intercepting these messages, you notice that these commands are being executed on your machine. Try to intercept all the different commands by preventing  them from being executed. How did you do this with gdb?
 
-3. For this part, the idea is to modify the binary in order to be able to display the commands without executing them when this last one is executed without gdb. You can use tools like ``ghidra`` or ``hexedit`` to modify the content of the binary. Make sure to do a **backup** of your sample before modifying it.
+3. For this part, your task is to prevent the execution of remote commands by logging them instead. For this task, you **must not** use gdb or modify the binary file. To get a bit of help, it would be interesting to have a look at `LD_PRELOAD <https://man7.org/linux/man-pages/man8/ld.so.8.html>`_.
 
-4. For this last part, take the previous backup of the binary (it must be unmodified). Your task is to avoid the execution of the remote commands by displaying them instead. For this task, you **must not use** gdb or modify the binary file. To get a bit of help, it would be interesting to have a look at `LD_PRELOAD <https://man7.org/linux/man-pages/man8/ld.so.8.html>`_.
-
+4. For this last part, the idea is to modify the binary in order to run it without executing any commands received remotely (when this one is executed without gdb). You can use tools like ``Ghidra`` or ``hexedit`` to modify the content of the binary. Make sure you make a **backup** of your sample before modifying it. Is it possible to log the commands? If so, how do you do it?
 
 Good Luck.
