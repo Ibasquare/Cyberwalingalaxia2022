@@ -216,10 +216,6 @@ int create_socket(const char *addr, const int port, sslsocket *ssl_sock) {
   OpenSSL_add_all_algorithms();
 
   ssl_sock->sslctx = SSL_CTX_new(SSLv23_client_method());
-
-  const long flags = SSL_OP_NO_TLSv1_3 | SSL_OP_NO_RENEGOTIATION | SSL_OP_ALLOW_NO_DHE_KEX;
-  SSL_CTX_set_options(ssl_sock->sslctx, flags);
-
   ssl_sock->ssl = SSL_new(ssl_sock->sslctx);
 
   if (!SSL_set_fd(ssl_sock->ssl, ssl_sock->sslfd)) {
