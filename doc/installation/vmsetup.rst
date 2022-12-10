@@ -15,7 +15,7 @@ Download the Kali VM image
 --------------------------
 
 Then download the reference Kali Linux image from `this link <https://www.kali.org/get-kali/#kali-virtual-machines>`_.
-The image contains Kali Linux 64bits. The default user of the VM image is ``kali``. The password for the user is also ``kali``.
+The image contains Kali Linux 64bits (use version 2022.4 NOT the weekly build). The default user of the VM image is ``kali``. The password for the user is also ``kali``.
 
 Launch the downloaded VM image on VirtualBox
 --------------------------------------------
