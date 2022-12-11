@@ -80,6 +80,9 @@ The environment that we will create is known as “**chroot jail**” or “**ja
 .. note::
    For more information on ``chroot`` and ``deboostrap`` please consult their manpage.
 
+.. note::
+   if you are using the setup described in section :ref:`Connect to a remote VM (Kali) already setup <target connect to a remote VM>`, you may not have access to internet for building the jail-directory using ``deboostrap``. To circumvent such issues, you may use upload the folder ``jail-dir.tar.gz``, decompress it using the command ``tar -xf jail-dir.tar.gz``, and use the resulting folder as a root for your chroot environment.
+
 First, we will create a minimal, internally-consistent environment in such a way that the program that we will execute thinks that it is run on a legit system. To do so, we will make use of ``deboostrap`` to install a Debian-like base system into a subdirectory. The following command create a minimal virtual root directory located ``/path/to/jail`` based on the amd64 architecture: 
 
 .. code-block:: console
@@ -102,9 +105,6 @@ Finally, you can execute the program inside the chrooted environment using:
    You may need libraries to execute your program. For instance, the library ``libssl-dev`` can be copy from your host environment to the chrooted environment using ``sudo chroot /path/to/jail-directory apt install libssl-dev``.
    
    Now, any modification induced by the execution of the binary file will be performed on the mocked file system.
-
-.. note::
-   if you are using the setup described in section :ref:`Connect to a remote VM (Kali) already setup <target connect to a remote VM>`, you may not have access to internet for building the jail-directory using ``deboostrap``. To circumvent such issues, you may use upload the folder ``jail-dir.tar.gz``, decompress it using the command ``tar -xf jail-dir.tar.gz``, and use the resulting folder as a root for your chroot environment.
 
 Basic Dynamic Analysis -- Communication Monitoring
 **************************************************
