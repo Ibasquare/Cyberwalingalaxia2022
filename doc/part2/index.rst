@@ -84,7 +84,7 @@ First, we will create a minimal, internally-consistent environment in such a way
 
 .. code-block:: console
 
-   sudo debootstrap --arch=amd64 --variant=minbase sid /path/to/jail-directory
+   sudo debootstrap --arch=amd64 --variant=minbase sid /path/to/jail-directory/
 
 Then, you can simply copy the file that you would like to analyze in the sandbox using:
 
