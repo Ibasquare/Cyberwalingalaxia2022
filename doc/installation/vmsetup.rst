@@ -32,7 +32,7 @@ Note that the following screenshots use Ubuntu and not Kali Linux nevertheless t
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/2.png
 
-3. Next, you need to define the amount of memory to be allocated to the virtual machine. The memory will be shared with the host system each time the virtual machine is started. You have to make sure not to go below the recommended minimum. In addition, you must also make sure to leave enough memory for the host operating system to continue running. We recommend a minimum of 1024MB but if you have enough memory on your system, you can slide the bar up to 2048MB.
+3. Next, you need to define the amount of memory to be allocated to the virtual machine. The memory will be shared with the host system each time the virtual machine is started. You have to make sure not to go below the recommended minimum. In addition, you must also make sure to leave enough memory for the host operating system to continue running. We recommend a minimum of 2048MB but if you have enough memory on your system, you can slide the bar up to 4096MB.
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/3.png
 
