@@ -59,7 +59,7 @@ The environment that we will create consist of smarter network namespace in whic
 
 .. code-block:: console
    
-   terminal1> sudo ip netns exec sudo inetsim
+   terminal1> sudo ip netns exec network-jail-<your_username> sudo inetsim
    terminal2> sudo ip netns exec network-jail-<your_username> ./executable
 
 FileSystem SandBoxing
