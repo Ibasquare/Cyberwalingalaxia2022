@@ -18,7 +18,7 @@ The material for all lab parts can be downloaded ADD LINK TO ARCHIVE HERE. This 
 Lab tools
 ---------
 
-All tools listed below are readily available in the reference virtual machine (Kali 2022.4). If you are using something else, please make sure to use UPX version 3.96.
+All tools listed below are readily available in the reference virtual machine (Kali 2022.4). If you are using something else, please make sure to use UPX version 3.96 (https://github.com/upx/upx/releases/tag/v3.96).
 
 * **md5sum** can be used to compute the MD5 signature of a given file. This is useful to check files against databases of known malware signatures. Never run a binary whose signature is in such a database.
 * **file** can be used to determine whether a binary is statically or dynamically linked and whether the binary is stripped or not. A stripped binary does not contain any symbolic information (e.g. function names) which makes it more difficult to analyze.

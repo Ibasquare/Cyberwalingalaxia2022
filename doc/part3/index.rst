@@ -14,7 +14,18 @@ Ghidra: a static binary analysis tool
 
 Ghidra is a tool for static binary analysis. It offers a user-friendly graphical interface, disassembly and decompilation functionalities as well as analysis tools for understandings the disassembled and decompiled code. It builds lists of functions, symbols, and can also help navigate in-between disassembled and decompiled code to understand better to which high-level instructions a set of assembly instructions can be mapped to.
 
-To start with Ghidra, create a project and simply drag & drop the binary files that you want to analyze in the main project window.
+To start with Ghidra, create a project and simply drag & drop (or import with the file menu) the binary files that you want to analyze in the main project window. If you cannot start ghidra, make sure it is installed with the corresponding JDK.
+
+.. code-block:: console
+
+	sudo apt install -y openjdk-11-jdk ghidra
+	
+If you are not using the reference virtual machine, please go to Ghidra's website (https://ghidra-sre.org/) and follow the installation instructions. 
+
+Ghidra setup
+------------
+
+Ghidra should come pre-installed on the reference Kali virtual machine. If you are using something
 
 A simple start: the empty program
 ---------------------------------
