@@ -33,7 +33,7 @@ There are only two hard requirements in order to follow along with the workshop:
 * An interest in binary analysis and/or reverse engineering
 * A Linux machine with administrative privileges with the following software/package: ``gdb``, ``ghidra``, ``inetsim``, ``file``, ``ldd``, ``strace``, ``xxd``, ``hexedit``, and ``gcc``.
 
-.. note:: The material for all lab parts can be downloaded as a `zip archive <https://github.com/ULiege-RUN/cyberwalingalaxia2022/raw/main/archive.zip>`_. This zip archive contains one folder per part of the lab. Each folder contains the files for the corresponding part.
+.. note:: The material for all lab parts can be downloaded as a `zip archive <https://dox.uliege.be/index.php/s/ETLfkuFShPvPrAJ/download>`_. This zip archive contains one folder per part of the lab. Each folder contains the files for the corresponding part.
 
 Tutorial
 ********

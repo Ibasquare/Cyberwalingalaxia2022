@@ -25,7 +25,7 @@ If you are not using the reference virtual machine, please go to Ghidra's websit
 Ghidra setup
 ------------
 
-Ghidra should come pre-installed on the reference Kali virtual machine. If you are using something
+Ghidra should come pre-installed on the reference Kali virtual machine.
 
 A simple start: the empty program
 *********************************
@@ -46,7 +46,7 @@ It can be compiled without glibc with the command::
 
 	gcc -nostdlib nolibc.c -o nolibc
 	
-Which of these 2 binaries will get the smallest binary size? Why? Check your theory with ``objdump`` and/or ``ghidra``. Could the ``nolibc`` binary be adapted to print "Hello world". Could it do it the standard way using ``printf``?
+Which of these 2 binaries will get the smallest text (code) size? Why? Check your theory with ``objdump`` and/or ``ghidra``. Could the ``nolibc`` binary be adapted to print "Hello world". Could it do it the standard way using ``printf``?
 
 Binary analysis with Ghidra
 ***************************
@@ -59,7 +59,7 @@ Compile it with ``gcc``.::
 
 	gcc funcs.c -o func1
 
-You can now drag the ``func1`` binary in you Ghidra project window to explore and analyze the result is contents. Have a look at the ``main()`` function. 
+You can now drag the ``func1`` binary in your Ghidra project window to explore and analyze the result and its contents. Have a look at the ``main()`` function. 
 
 * What do the function calls look like? How are arguments passed and how is the return value obtained?
 * Where are the local variables stored? In particular, where is the array stored and in which form? How does that look in the decompiled code?
