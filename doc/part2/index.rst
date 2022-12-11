@@ -99,7 +99,7 @@ Finally, you can execute the program inside the chrooted environment using:
    sudo chroot /path/to/jail-directory ./home/executable
 
 .. note::
-   You may need libraries to execute your program. For instance, the library ``libssl-dev`` can be installed in the chrooted environment using:
+   You may need libraries to execute your program. For instance, the library ``libssl-dev`` can be copy from your host environment to the chrooted environment using:
 .. code-block:: console
 
    sudo chroot /path/to/jail-directory apt install libssl-dev
@@ -157,11 +157,21 @@ Analyze the traffic that you captured with wireshark. Can you decrypt the first 
 Basic Dynamic Analysis -- File System Events Monitoring
 *******************************************************
 
-In this part of the lab, you are asked to monitor any file system event, e.g. file access, creation, etc, issued by the ``malware`` binary file. To do so, you are expected to make use of a chrooted environment that you can monitor using ``iwatch``. ``iwatch`` is a realtime filesystem monitoring program, based on ``inotify`` that allows you to track file system events. As such, you can monitor events in your sandbox using the following command:
+.. note::
+   In the reminder of this lab, you should use the flag ``--localhost`` when running the binary file ``malware`` if you are using the setup described in section :ref:`Connect to a remote VM (Kali) already setup <target connect to a remote VM>`.
+
+In this part of the lab, you are asked to monitor any file system event, e.g. file access, creation, etc, issued by the binary file already studied in **Part 1**. To do so, you are expected to make use of a chrooted environment that you can monitor using ``iwatch``. ``iwatch`` is a realtime filesystem monitoring program, based on ``inotify`` that allows you to track file system events. As such, you can monitor events in your sandbox using the following command:
 
 .. code-block:: console
 
    sudo iwatch -r /path/to/jail-directory
+
+Once your chrooted environment is setup, you can perform the analysis using the following commands:
+
+.. code-block:: console
+
+   terminal1> sudo iwatch -r /path/to/jail-directory
+   terminal2> sudo chroot /path/to/jail-directory ./path/to/malware (--localhost)
 
 Analyze the file system events produced by the malware when connectivity is not restricted.
 
