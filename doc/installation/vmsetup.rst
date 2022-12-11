@@ -1,16 +1,12 @@
-#####################################################
+######################################################
 Setting Up a VM on Linux/Windows and Mac (intel chips)
-#####################################################
-#####################################################
+######################################################
+######################################################
 
 You need to have a working virtual machine for the lab work therefore you must follow this tutorial carefully in order to have a functional setup before starting the lab work. We decided to choose Kali Linux (VM) for the lab.  
 
 Installing VirtualBox
 ---------------------
-
-.. danger:: 
-    
-    Downloading the VM image may take some time. If you didn't prepare your vm soon enough, you may skip these step and go :ref:`here <target connect to a remote VM>`.
 
 .. danger:: If you have a recent Macbook (with m1 or m2 chip), skip VirtualBox steps and go `here <macsetup.html>`_ instead. 
 

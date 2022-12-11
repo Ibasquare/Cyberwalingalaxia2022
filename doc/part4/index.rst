@@ -49,6 +49,6 @@ The study of the malicious sample may be divided in the following parts:
 
 3. For this part, your task is to prevent the execution of remote commands by logging them instead. For this task, you **must not** use gdb or modify the binary file. To get a bit of help, it would be interesting to have a look at `LD_PRELOAD <https://man7.org/linux/man-pages/man8/ld.so.8.html>`_.
 
-4. For this last part, the idea is to modify the binary in order to run it without executing any commands received remotely (when this one is executed without gdb). You can use tools like ``Ghidra`` or ``hexedit`` to modify the content of the binary. Make sure you make a **backup** of your sample before modifying it. Is it possible to log the commands? If so, how do you do it?
+4. For this last part, the idea is to modify the binary in order to run it without executing any commands received remotely (when this one is executed without gdb). You can use tools like ``Ghidra`` or ``hexedit`` to modify the content of the binary. Make sure you make a **backup** of your sample before modifying it. Is it possible to log (display) the commands? If so, how do you do it?
 
 Good Luck.

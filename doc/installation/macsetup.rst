@@ -20,7 +20,7 @@ TODO
 Using Qemu as emulator (SLOW)
 =============================
 
-As mentioned, this approach allows to run Kali x86 on your Mac but since it relied on a emulator, it will be quite slow...
+As mentioned, this approach allows to run Kali x86 (64bits) on your Mac but since it relied on a emulator, it will be quite **slow**...
 
 
 Download the Kali VM image

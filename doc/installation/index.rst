@@ -8,7 +8,7 @@ Setup and Installation:
 #######################
 #######################
 
-In this section, you will setup the environment needed for thi session.
+In this section, you will setup the environment needed for this session.
 
 .. warning:: If you already have a Linux Virtual Machine, you can skip this part nevertheless note that you will need to download the tools mentioned in the different parts of the tutorial if your machine is not Kali Linux. Most tools can be obtained via ``apt install``.
 
