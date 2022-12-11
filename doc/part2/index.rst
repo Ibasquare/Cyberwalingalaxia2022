@@ -58,7 +58,7 @@ Once the namespace **network-jail** has been correctly created, you can execute 
 .. _Using linux network namespace and InetSim to setup a smarter network sandbox:
 **Using linux network namespace and InetSim to setup a smarter network sandbox** 
 
-The environment that we will create consist of smarter network namespace in which we will run basic network services to answer the queries issued by our program and to manipulate our answers to redirect towards our other network services. As such, the aim of this sandbox is to dig as deep as possible into the program execution and generate as much traffic as we can to analyze traffic patterns. To do so, create a network namespace using the previous commands. Then, you can execute both your inetsim simulator, and the executable of interest in you network namespace using:
+The environment that we will create consist of smarter network namespace in which we will run basic network services to answer the queries issued by our program and to manipulate our answers to redirect towards our other network services. As such, the aim of this sandbox is to dig as deep as possible into the program execution and generate as much traffic as we can to analyze traffic patterns. To do so, create a network namespace using the previous commands. Then, you can execute both your ``inetsim`` simulator, and the executable of interest in you network namespace using:
 
 .. code-block:: console
    
@@ -152,7 +152,7 @@ The second step of this investigation will be to perform the same setup but also
 Analyze the traffic that you capture with wireshark. Can you decrypt the first message send by the malware to the server? 
 
 .. note::
-   **HINT**: You may want to disable the https server used by inetsim and setup a custom https server using ``openssl s_server``. To do so, edit the file ``/etc/inetsim/inetsim.conf`` and comment the line starting with ``start_service https``. Then, you can start your openssl server on port 443 using the command ``openssl s_server -port 443 -accept 443``. You can also check the limitations of wireshark regarding TLS decryption `here <https://wiki.wireshark.org/TLS>`_.
+   **HINT**: You may want to disable the https server used by ``inetsim`` and setup a custom https server using ``openssl s_server``. To do so, edit the file ``/etc/inetsim/inetsim.conf`` and comment the line starting with ``start_service https``. Then, you can start your openssl server on port 443 using the command ``openssl s_server -port 443 -accept 443``. You can also check the limitations of wireshark regarding TLS decryption `here <https://wiki.wireshark.org/TLS>`_.
 
 
 Basic Dynamic Analysis -- File System Events Monitoring

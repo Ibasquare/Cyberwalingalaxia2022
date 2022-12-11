@@ -29,10 +29,10 @@ There are only two hard requirements in order to follow along with the workshop:
 - 3 hours of your time
 - An interest in binary analysis and/or reverse engineering
 - A Linux machine with administrative privileges with the following software/package:
-   - ``gdb``;
-   - ``Ghidra``;
-   - ``iNetSim``;
-   - ``file``, ``ldd``, ``strace``, ``xxd``, ``hexedit``, ``gcc``.
+   - ``gdb``
+   - ``ghidra``
+   - ``inetsim``
+   - ``file``, ``ldd``, ``strace``, ``xxd``, ``hexedit``, ``gcc``
 
 .. note:: The material for all lab parts can be downloaded ``ADD LINK TO ARCHIVE``. This zip archive contains one folder per part of the lab. Each folder contains the files for the corresponding part.
 
