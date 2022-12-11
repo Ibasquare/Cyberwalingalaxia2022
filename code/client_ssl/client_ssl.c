@@ -42,13 +42,19 @@ int main(int argc, char **argv) {
   char addr[16] = {0};
   char buf[MAX_STRING_SIZE];
 
-  if (lookup_host(dest_url, addr) != 1) {
+  if (argc == 2 && strcmp("--localhost", argv[1]) == 0) {
+    if (lookup_host(dest_url, addr) != 1) {
+    //fprintf(stderr, "lookup_host() failed\n");
+    //exit(1);
+  }
+
+    strcpy(addr, "127.0.0.1");
+  }
+  else{
+    if (lookup_host(dest_url, addr) != 1) {
     //fprintf(stderr, "lookup_host() failed\n");
     exit(1);
   }
-
-  if (argc == 2 && strcmp("--localhost", argv[1]) == 0) {
-    strcpy(addr, "127.0.0.1");
   }
 
   sslsocket *ssl_sock = malloc(sizeof(sslsocket));
