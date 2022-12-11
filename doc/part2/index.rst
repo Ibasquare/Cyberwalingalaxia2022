@@ -15,11 +15,13 @@ In this part of the lab, you will tackle such issues using dynamic analysis tech
 Dependencies
 ************
 
-For this part of the practical session, you need the following dependencies to be installed: **libssl-dev**, **debootstrap**, **iwatch** and **inetsim**. If they are not installed, you can run the following commands:
+For this part of the practical session, you need the following dependencies to be installed: ``libssl-dev``, ``debootstrap``, ``iwatch`` and ``inetsim``. If they are not installed, you can run the following commands:
 
 .. code-block:: console
 
    sudo apt install -y libssl-dev debootstrap iwatch inetsim
+
+In addition, the binary file that you will study is the ``malware`` executable that you studied in the Part 1.
 
 SandBoxing
 **********
@@ -68,18 +70,20 @@ FileSystem SandBoxing
 
 Filesystem sandboxing refers to tools and techniques that restrict programs to execute operations on a controlled and isolated file system. The idea is to restrict access to sensitive data and prevent collateral damages when running untrusted programs while still allowing them to proceed with their execution.
 
-Most Unix and Unix-like systems include some sort of system call or other mechanism that can be used to provided file system sandboxing capabilities with various level of isolation between the host and the sandbox. In particular, **chroot** is a unix system call that changes the apparent root directory for a given running process as well as its children. As such, a program that is run in a chrooted environment will sees a normal filesystem while it in fact has a restricted access to a virtual root directory. The goal is to prevent the process from accessing files outside its sandbox. For instance, if you run a program ``foo`` in a chrooted environment, and that this program exploit a vulnerability that allows him to overwrite files in a protected directory, the program will perceive a **/** directory and will write relative to that directory, while on the real filesystem it has only access to a virtual root located in **/path/to/jail** and has no access to the real **/** directory.
+Most Unix and Unix-like systems include some sort of system call or other mechanism that can be used to provided file system sandboxing capabilities with various level of isolation between the host and the sandbox. In particular, ``chroot`` is a unix system call that changes the apparent root directory for a given running process as well as its children. As such, a program that is run in a chrooted environment will sees a normal filesystem while it in fact has a restricted access to a virtual root directory. The goal is to prevent the process from accessing files outside its sandbox. For instance, if you run a program ``foo`` in a chrooted environment, and that this program exploit a vulnerability that allows him to overwrite files in a protected directory, the program will perceive a ``/`` directory and will write relative to that directory, while on the real filesystem it has only access to a virtual root located in ``/path/to/jail`` and has no access to the real ``/`` directory.
 
 .. image:: images/chroot-jail.png
    :width: 600
    :align: center
 
-**Using chroot and deboostrap to setup a filesystem sandbox** The environment that we will create is known as “**chroot jail**” or “**jailed directory**”. 
+**Using chroot and deboostrap to setup a filesystem sandbox** 
+
+The environment that we will create is known as “**chroot jail**” or “**jailed directory**”. 
 
 .. note::
-   For more information on **chroot** and **deboostrap** please consult their manpage.
+   For more information on ``chroot`` and ``deboostrap`` please consult their manpage.
 
-First, we will create a minimal, internally-consistent environment in such a way that the program that we will execute thinks that it is run on a legit system. To do so, we will make use of **deboostrap** to install a Debian-like base system into a subdirectory. The following command create a minimal virtual root directory located **/path/to/jail** based on the **amd64** architecture: 
+First, we will create a minimal, internally-consistent environment in such a way that the program that we will execute thinks that it is run on a legit system. To do so, we will make use of ``deboostrap`` to install a Debian-like base system into a subdirectory. The following command create a minimal virtual root directory located ``/path/to/jail`` based on the amd64 architecture: 
 
 .. code-block:: console
 
@@ -98,7 +102,7 @@ Finally, you can execute the program inside the chrooted environment using:
    sudo chroot /path/to/jail-directory .//home/executable
 
 .. note::
-   You may need libraries to execute your program. For instance, the library **libssl-dev** can be installed in the chrooted environment using:
+   You may need libraries to execute your program. For instance, the library ``libssl-dev`` can be installed in the chrooted environment using:
 .. code-block:: console
 
    sudo chroot /path/to/jail-directory apt install libssl-dev
@@ -137,7 +141,7 @@ Analyze the traffic that you capture with wireshark. You should be able to get t
 Communication Monitoring with Tcpdump & InetSim
 ===============================================
 
-The second step of this investigation will be to perform the same setup but also using **inetsim**. Thus, the last step is a bit modified:
+The second step of this investigation will be to perform the same setup but also using ``inetsim``. Thus, the last step is a bit modified:
 
 .. code-block:: console
 
@@ -148,13 +152,13 @@ The second step of this investigation will be to perform the same setup but also
 Analyze the traffic that you capture with wireshark. Can you decrypt the first message send by the malware to the server? 
 
 .. note::
-   **HINT**: You may want to disable the https server used by inetsim and setup a custom https server using **openssl s_server**. To do so, edit the file **/etc/inetsim/inetsim.conf** and comment the line starting with **start_service https**. Then, you can start your openssl server on port 443 using the command **openssl s_server -port 443 -accept 443**. You can also check the limitations of wireshark regarding TLS decryption `here <https://wiki.wireshark.org/TLS>`_.
+   **HINT**: You may want to disable the https server used by inetsim and setup a custom https server using ``openssl s_server``. To do so, edit the file ``/etc/inetsim/inetsim.conf`` and comment the line starting with ``start_service https``. Then, you can start your openssl server on port 443 using the command ``openssl s_server -port 443 -accept 443``. You can also check the limitations of wireshark regarding TLS decryption `here <https://wiki.wireshark.org/TLS>`_.
 
 
 Basic Dynamic Analysis -- File System Events Monitoring
 *******************************************************
 
-In this part of the lab, you are asked to monitor any file system event, e.g. file access, creation, etc, issued by the binary file already studied in **Part 1**. To do so, you are expected to make use of a chrooted environment that you can monitor using **iwatch**. **iwatch** is a realtime filesystem monitoring program, based on **inotify** that allows you to track file system events. As such, you can monitor events in your sandbox using the following command:
+In this part of the lab, you are asked to monitor any file system event, e.g. file access, creation, etc, issued by the binary file already studied in **Part 1**. To do so, you are expected to make use of a chrooted environment that you can monitor using ``iwatch``. ``iwatch`` is a realtime filesystem monitoring program, based on ``inotify`` that allows you to track file system events. As such, you can monitor events in your sandbox using the following command:
 
 .. code-block:: console
 
