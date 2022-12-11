@@ -96,7 +96,7 @@ Finally, you can execute the program inside the chrooted environment using:
 
 .. code-block:: console
 
-   sudo chroot /path/to/jail-directory .//home/executable
+   sudo chroot /path/to/jail-directory ./home/executable
 
 .. note::
    You may need libraries to execute your program. For instance, the library ``libssl-dev`` can be installed in the chrooted environment using:
