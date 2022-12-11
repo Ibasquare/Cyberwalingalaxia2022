@@ -13,9 +13,8 @@ In order to perform theses tasks, we will rely on a debugger (in our case, the G
 
 .. danger:: If you do not have access to Internet, make sure to run **inetsim** first (configured as local DNS - see Part 2) and run the binary with the ``--locahost`` argument.
 
-------------------------
 The Gnu Project Debugger
-------------------------
+************************
 
 The Gnu Project Debugger can be used to study the behavior of a running program by examining its content (e.g., stack, variables, registers, ...) . It is also able to disassemble some code, i.e., showing the assembly code corresponding to the instructions.
 
@@ -38,9 +37,8 @@ After running your program with ``gdb program`` where program is an executable p
 
 If you need, you can use the `help` command to list all possible commands. There exists also various cheat-sheets available online such as `GDB_cheatsheet1 <https://gist.github.com/rkubik/b96c23bd8ed58333de37f2b8cd052c30>`_ or `GDB_cheatsheet2 <https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf>`_  
 
-----------
 Objectives
-----------
+**********
 
 The study of the malicious sample may be divided in the following parts:
 

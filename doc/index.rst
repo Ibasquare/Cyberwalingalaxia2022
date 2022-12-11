@@ -19,25 +19,22 @@ encouraged to follow along and work through the different exercises.
 Feel free to ask questions or request clarifications at any point
 during the workshop.
 
-============
+
 Requirements
-============
-============
+************
 
 There are only two hard requirements in order to follow along with the workshop:
 
 - 3 hours of your time
 - An interest in binary analysis and/or reverse engineering
 - A Linux machine with administrative privileges with the following software/package:
-   - GDB
-   - Ghidra
-   - iNetSim
+   - GDB;
+   - Ghidra;
+   - iNetSim;
    - file, ldd, strace, xxd, hexedit, gcc.
 
-========
 Tutorial
-========
-========
+********
 
 .. toctree::
    :maxdepth: 2

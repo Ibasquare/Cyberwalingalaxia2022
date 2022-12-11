@@ -7,17 +7,17 @@
 ##################################
 Part 3 -- Advanced Static Analysis
 ##################################
-
+##################################
   
 Ghidra: a static binary analysis tool
--------------------------------------
+*************************************
 
 Ghidra is a tool for static binary analysis. It offers a user-friendly graphical interface, disassembly and decompilation functionalities as well as analysis tools for understandings the disassembled and decompiled code. It builds lists of functions, symbols, and can also help navigate in-between disassembled and decompiled code to understand better to which high-level instructions a set of assembly instructions can be mapped to.
 
 To start with Ghidra, create a project and simply drag & drop the binary files that you want to analyze in the main project window.
 
 A simple start: the empty program
----------------------------------
+*********************************
 
 Compile the libc.c file with gcc::
 	
@@ -38,7 +38,7 @@ It can be compiled without glibc with the command::
 Which of these 2 binaries will get the smallest binary size? Why? Check your theory with objdump and/or Ghidra. Could the nolibc binary be adapted to print "Hello world". Could it do it the standard way using printf?
 
 Binary analysis with Ghidra
----------------------------
+***************************
 
 Have a look at funcs.c. Its code is displayed below.
 
@@ -67,7 +67,7 @@ Have a look at the sum() and rec_sum() functions. The rec_sum() function is equi
 * In each case, is it obvious from the decompiled code that you are iterating over an array? Explain.
 
 Compiler optimizations
-----------------------
+**********************
 
 We are now going to study the impact of compiler optimization on the readability of disassembled and decompiled code. Recompile funcs.c with optimizations using the following command.::
 
