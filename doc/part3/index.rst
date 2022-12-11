@@ -55,7 +55,7 @@ Have a look at ``funcs.c``. Its code is displayed below.
 
 .. literalinclude:: funcs.c
 
-Compile it with ``gcc``.::
+Compile it with ``gcc``::
 
 	gcc funcs.c -o func1
 
@@ -89,4 +89,4 @@ Drag the resulting binary into Ghidra for analysis and comparison with its unopt
 * Have a look at the ``main()`` function. What do you observe? Could the compiler have generated the same instructions for the main function if the array was passed as user input? Why (not)?
 * Compare the ``sum3()`` and ``sum()`` functions. In the unoptimized binary, they were very similar. What technique was applied to ``sum3()`` that could not be applied to ``sum()``? Explain.
 * Compare ``sum_rec()`` with ``sum()`` and its unoptimized version. What is the most notable thing about the optimization(s) that were applied?
-* Compare ``sum()`` and ``sum_rec()`` optimized and unoptimized versions in terms of readability? What is the impact of optimizations on the ease to perform binary analysis? 
+* Compare the optimized and unoptimized versions of ``sum()`` and ``sum_rec()`` in terms of readability. What is the impact of optimizations on the ease to perform binary analysis? 
