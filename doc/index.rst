@@ -7,36 +7,37 @@ Cyberwal in Galaxia [2022]
 ##########################
 ##########################
 
-Welcome to ULiege's Malware Reverse Engineering Lab, which focuses on fundamentals of malware reverse engineering.
+Welcome to ULiege's Malware Reverse Engineering Lab, which focuses on
+fundamentals of malware reverse engineering.
 
-This site contains the tutorial that will help you understand the important concepts related to Malware Reverse Engineering discussed during the theoretical part given by Prof. Laurent Mathy.
+This site contains the tutorial that will help you understand the
+important concepts related to Malware Reverse Engineering discussed
+during the theoretical part given by Prof. Laurent Mathy.
 
 This lab work is presented as a hands-on tutorial and participants are
 encouraged to follow along and work through the different exercises.
 Feel free to ask questions or request clarifications at any point
 during the workshop.
 
-============
+.. warning:: **DISCLAIMER**: TODO
+
 Requirements
-============
-============
+************
 
 There are only two hard requirements in order to follow along with the workshop:
 
 - 3 hours of your time
 - An interest in binary analysis and/or reverse engineering
 - A Linux machine with administrative privileges with the following software/package:
-   - GDB
-   - Ghidra
-   - iNetSim
-   - ldd, strace, xxd, hexedit, 
-- An internet connection
+   - ``gdb``
+   - ``ghidra``
+   - ``inetsim``
+   - ``file``, ``ldd``, ``strace``, ``xxd``, ``hexedit``, ``gcc``
 
+.. note:: The material for all lab parts can be downloaded ``ADD LINK TO ARCHIVE``. This zip archive contains one folder per part of the lab. Each folder contains the files for the corresponding part.
 
-========
 Tutorial
-========
-========
+********
 
 .. toctree::
    :maxdepth: 2

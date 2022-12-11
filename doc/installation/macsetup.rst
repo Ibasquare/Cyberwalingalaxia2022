@@ -1,32 +1,43 @@
+#####################################################
 Setting Up a VM on a recent Mac (with m1 or m2 chips)
 #####################################################
+#####################################################
 
-.. danger:: Perform these steps only if you have a recent Macbook with a m1 or m2 chip. Otherwise use `VirtualBox <vmsetup.html>`_ instead. Note that we propose two solutions:
+.. danger:: Perform these steps only if you do not have the Kali reference machine installed or if you have a recent Macbook with an m1 or m2 chip. Otherwise use `VirtualBox <vmsetup.html>`_ instead. Note that we propose two solutions:
   
   1. Connect to a remote VM already configured (**recommended**).
   2. If the previous approach does not work, you can use qemu as emulator to run Kali (**but it is slow**).
 
 
+.. _target connect to a remote VM:
+
 Connect to a remote VM (Kali) already setup
-===========================================
+*******************************************
 
-TODO
+We have made Kali Linux VMs available in a private network. In order to use them, it is necessary to connect to the private Wi-Fi first. The SSID is either ``Cyberwal1`` or ``Cyberwal2``. Once connected, open a terminal and connect via ssh with the following command::
 
+  ssh student@192.168.1.2
+
+The password is ``cyberwal``. Once logged in, you are asked to create a new user. Enter your username and a password. Once the user has been created, the ssh session will end and you will be asked to log in again with the following command::
+
+  ssh -XY your_username@192.168.1.2 -p PORT_NUMBER
+
+Once logged in, you automatically have a workspace dedicated to your user.
 
 Using Qemu as emulator (SLOW)
-=============================
+*****************************
 
-As mentioned, this approach allows to run Kali x86 on your Mac but since it relied on a emulator, it will be quite slow...
+As mentioned, this approach allows to run Kali x86 (64bits) on your Mac but since it relied on a emulator, it will be quite **slow**... Use it only if you cannot have access to the private network (part above).
 
 
 Download the Kali VM image
---------------------------
+==========================
 
 Then download the reference Kali Linux image from `this link <https://www.kali.org/get-kali/#kali-virtual-machines>`_.
 The image contains Kali Linux 64bits. The default user of the VM image is ``kali``. The password for the user is also ``kali``.
 
 Installing the VM on Mac (m1 chip)
-----------------------------------
+==================================
 
 If you have a Mac with a modern chip, VirtualBox will not work as the underlying architecture is different (arm vs x86_64). To overcome this problem you will have to use another hypervisor/emulator which is `qemu <https://www.qemu.org>`_.
 
@@ -59,7 +70,7 @@ If you don't see any errors, everything is working on your side and you can move
 .. note:: Each time you will reboot the VM, you need to add your credentials and run the *dhclient* command to activate the network interface. You can investigate yourself to create a cronjob/crontab.
 
 Connect to the VM by ssh
-------------------------
+========================
 
 Then open a terminal and enter the following commands::
 
@@ -68,7 +79,7 @@ Then open a terminal and enter the following commands::
 The VM will ask your password. In that case, use the "kali" credentials. Note that if you are using Windows, you can use PowerShell or CommandPrompt or `putty <https://www.putty.org>`_.
 
 Update package information
---------------------------
+==========================
 
 Finally, enter the following command on your terminal app after connecting to the VM by ssh::
 

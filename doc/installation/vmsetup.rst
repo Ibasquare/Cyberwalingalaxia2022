@@ -1,12 +1,17 @@
+######################################################
 Setting Up a VM on Linux/Windows and Mac (intel chips)
-======================================================
+######################################################
+######################################################
 
-You need to have a working virtual machine for the lab work therefore you must follow this tutorial carefully in order to have a functional setup before starting the lab work. We decided to choose Kali Linux (VM) for the lab.  
+You need to have a working virtual machine for the lab work therefore you must follow this tutorial carefully in order to have a functional setup before starting the lab work. We decided to choose Kali Linux (VM) for the lab.
+
+.. danger:: Downloading the VM image may take some time. If you did not prepare your VM soon enough, you may skip these step and go :ref:`here <target connect to a remote VM>`.
 
 Installing VirtualBox
 ---------------------
 
-.. danger:: If you have a recent Macbook (with m1 or m2 chip), skip VirtualBox steps and go `here <macsetup.html>`_ instead.
+.. danger:: If you have a recent Macbook (with m1 or m2 chip), skip VirtualBox steps and go `here <macsetup.html>`_ instead. 
+
 
 First download the VirtualBox installer from `official web page <https://www.virtualbox.org/>`_ according to your OS. After finishing the download, launch the installer and follow the instruction of the installer.
 VirtualBox is a virtualization software which allows you to create VMs that run OSes including Linux on your computer without removing your currently-using OSes such as Windows and macOS. In this course, we execute Linux on the VM made by VirtualBox.
@@ -30,7 +35,7 @@ Note that the following screenshots use Ubuntu and not Kali Linux nevertheless t
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/2.png
 
-3. Next, you need to define the amount of memory to be allocated to the virtual machine. The memory will be shared with the host system each time the virtual machine is started. You have to make sure not to go below the recommended minimum. In addition, you must also make sure to leave enough memory for the host operating system to continue running. We recommend a minimum of 1024MB but if you have enough memory on your system, you can slide the bar up to 2048MB.
+3. Next, you need to define the amount of memory to be allocated to the virtual machine. The memory will be shared with the host system each time the virtual machine is started. You have to make sure not to go below the recommended minimum. In addition, you must also make sure to leave enough memory for the host operating system to continue running. We recommend a minimum of 2048MB but if you have enough memory on your system, you can slide the bar up to 4096MB.
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/3.png
 
