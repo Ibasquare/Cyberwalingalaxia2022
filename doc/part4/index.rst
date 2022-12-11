@@ -27,12 +27,13 @@ After running your program with ``gdb program`` where program is an executable p
    disassemble method    # disassembles a specified function or a function fragment
    break line_nb|method  # insert breakpoint at line_nb (can be a method)
    info functions        # list all functions
-   step                  # continue running your program until control reaches a different source line
+   info registers        # list all registers
+   stepi (si)            # continue running your program until control reaches a different source line
    next                  # continue to the next source line in the current (innermost) stack frame
    continue              # continue execution until the next breakpoint.
-   x[/n] addr            # examine the memory, where n is the number of words and
-                         # when addr is the address where you want GDB to begin displaying memory.
-   p $pc                 # display the value of pc
+   x[/n] addr            # examine the memory (addr), where n is the number of words
+   x/s addr              # examine the memory (addr) as a string
+   p $pc                 # display the value of pc (you can display any registers)
    set $pc = addr        # set the value of pc to a specific address
 
 If you need, you can use the `help` command to list all possible commands. There exists also various cheat-sheets available online such as `GDB_cheatsheet1 <https://gist.github.com/rkubik/b96c23bd8ed58333de37f2b8cd052c30>`_ or `GDB_cheatsheet2 <https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf>`_  
@@ -45,7 +46,7 @@ The study of the malicious sample may be divided in the following parts:
 
 1. The first part consists of executing the *malware* binary file with gdb in order to intercept and see the content of the various messages exchanged with the remote server. What is the content of these messages? In addition, what is the remote address of the server?
 
-2. After intercepting these messages, you notice that these commands are being executed on your machine. Try to intercept all the different commands by preventing  them from being executed. How did you do this with gdb?
+2. After intercepting these messages, you notice that these commands are being executed on your machine. Try to intercept all the different commands (received by the remote server) by preventing them from being executed. How did you do this with gdb?
 
 3. For this part, your task is to prevent the execution of remote commands by logging them instead. For this task, you **must not** use gdb or modify the binary file. To get a bit of help, it would be interesting to have a look at `LD_PRELOAD <https://man7.org/linux/man-pages/man8/ld.so.8.html>`_.
 
