@@ -19,20 +19,19 @@ encouraged to follow along and work through the different exercises.
 Feel free to ask questions or request clarifications at any point
 during the workshop.
 
-.. warning:: **DISCLAIMER**: TODO
+.. warning:: 
+   **DISCLAIMER**: This tutorial is intended for academic purposes only, and the methods suggested in further sections should be used with particular care when handling real suspicious/malicious programs. In particular, not all security policies are enforced by all techniques, and many simplifications have been made to meet the timing requirements of this lab. 
+   
+   The binary files that you will study in this lab are **harmless** and only mimic some of the behavior that real malware can exhibit.
 
 Requirements
 ************
 
 There are only two hard requirements in order to follow along with the workshop:
 
-- 3 hours of your time
-- An interest in binary analysis and/or reverse engineering
-- A Linux machine with administrative privileges with the following software/package:
-   - ``gdb``
-   - ``ghidra``
-   - ``inetsim``
-   - ``file``, ``ldd``, ``strace``, ``xxd``, ``hexedit``, ``gcc``
+* 3 hours of your time
+* An interest in binary analysis and/or reverse engineering
+* A Linux machine with administrative privileges with the following software/package: ``gdb``, ``ghidra``, ``inetsim``, ``file``, ``ldd``, ``strace``, ``xxd``, ``hexedit``, and ``gcc``.
 
 .. note:: The material for all lab parts can be downloaded ``ADD LINK TO ARCHIVE``. This zip archive contains one folder per part of the lab. Each folder contains the files for the corresponding part.
 

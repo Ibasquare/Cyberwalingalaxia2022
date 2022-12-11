@@ -1,5 +1,5 @@
 ######################################################
-Setting Up a VM on Linux/Windows and Mac (intel chips)
+Setting Up a VM on Linux/Windows and Mac (Intel chips)
 ######################################################
 ######################################################
 
@@ -10,17 +10,17 @@ You need to have a working virtual machine for the lab work therefore you must f
 Installing VirtualBox
 ---------------------
 
-.. danger:: If you have a recent Macbook (with m1 or m2 chip), skip VirtualBox steps and go `here <macsetup.html>`_ instead. 
+.. danger:: If you have a recent Macbook (with M1 or M2 chip), skip VirtualBox steps and go `here <macsetup.html>`_ instead. 
 
 
 First download the VirtualBox installer from `official web page <https://www.virtualbox.org/>`_ according to your OS. After finishing the download, launch the installer and follow the instruction of the installer.
 VirtualBox is a virtualization software which allows you to create VMs that run OSes including Linux on your computer without removing your currently-using OSes such as Windows and macOS. In this course, we execute Linux on the VM made by VirtualBox.
 
-Download the Kali VM image
---------------------------
+Download the Kali VM image (VirtualBox)
+---------------------------------------
 
 Then download the reference Kali Linux image from `this link <https://www.kali.org/get-kali/#kali-virtual-machines>`_.
-The image contains Kali Linux 64bits (use version 2022.4 NOT the weekly build). The default user of the VM image is ``kali``. The password for the user is also ``kali``.
+The image contains Kali Linux 64bits. The default user of the VM image is ``kali``. The password for the user is also ``kali``.
 
 Launch the downloaded VM image on VirtualBox
 --------------------------------------------
@@ -31,7 +31,7 @@ Note that the following screenshots use Ubuntu and not Kali Linux nevertheless t
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/1.png
 
-2. The first thing to do is to define the name, the type of virtual machine and the version you want to create. In our case, we chose to name the machine ``Kali``.
+2. The first thing to do is to define the name, the type of virtual machine and the version you want to create. In our case, we chose to name the machine ``kali``.
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/2.png
 
@@ -39,8 +39,7 @@ Note that the following screenshots use Ubuntu and not Kali Linux nevertheless t
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/3.png
 
-4. The next step is to use a virtual hard disk. Like shared memory, this is the storage space that will be allocated to the virtual machine. In this case, we will use the virtual hard disk you downloaded (``Ubuntu.vdi``). Click the "Use an existing virtual hard disk file" option. A new window will open. Click on the "Add" button then select the file 
-``Ubuntu.vdi`` by browsing your file explore (it should normally be in your "Downloads" folder).
+4. The next step is to use a virtual hard disk. Like shared memory, this is the storage space that will be allocated to the virtual machine. In this case, we will use the virtual hard disk you downloaded (``kali-linux-2022.4-virtualbox-amd64.vdi``). Click the "Use an existing virtual hard disk file" option. A new window will open. Click on the "Add" button then select the file ``kali-linux-2022.4-virtualbox-amd64.vdi`` by browsing your file explorer.
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/4.png
 
@@ -52,7 +51,7 @@ Note that the following screenshots use Ubuntu and not Kali Linux nevertheless t
 
 .. figure:: ../images/tutorial1/vmsetup/vbsetup/6.png
 
-7. Once the initialization phase is complete, the console login screen appears. The password to log in is the same as the user name, i.e. ``student``.
+7. Once the initialization phase is complete, the console login screen appears. The password to log in is the same as the user name, i.e. ``kali``.
 
 .. danger:: If your VM does not boot it may be related to the VT-x technology in most cases. To handle this issue, shutdown your (host) machine, open your BIOS settings, and enable Virtual Technology-x option. Finally restart your machine and test again.
 
@@ -82,17 +81,17 @@ Then click on "Advanced", and choose "Port Forwarding".
 
 .. figure:: ../images/tutorial1/vmsetup/portfwd/2.png
 
-Finally, click on the green "+" button, and type the following information. This allows to connect to the remove virtual machine through localhost by using the "6543" port on the host machine (your computer).
+Finally, click on the green "+" button, and type the following information. This allows to connect to the remove virtual machine through localhost by using the ``6543`` port on the host machine (your computer).
 
 .. figure:: ../images/tutorial1/vmsetup/portfwd/3.png
 
 Further details about the configuration:
 
-* Name: ssh (anything would be fine but try to be consistent)
-* Protocol: TCP
-* Host IP: 127.0.0.1 (localhost)
-* Host Port: 6543 (mostly any number [>1024] would be OK but remember it!)
-* Guest Port: 22 (ssh port)
+* Name: ``ssh`` (anything would be fine but try to be consistent)
+* Protocol: ``TCP``
+* Host IP: ``127.0.0.1`` (localhost)
+* Host Port: ``6543`` (mostly any number [>1024] would be OK but remember it!)
+* Guest Port: ``22`` (ssh port)
 
 Connect to the VM by ssh
 ------------------------

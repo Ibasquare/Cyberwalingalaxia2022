@@ -30,9 +30,6 @@ In cybersecurity, a sandbox is a controlled, isolated execution environment that
 
 There exists many tool that can be used for sandboxing ranging from virtualization and containerization techniques to simpler isolation mechanisms such as linux namespaces, chroot jails, etc. In this lab, we will focus on two main aspects of sandboxing: network sandboxing and file system sandboxing.
 
-.. warning::
-   **DISCLAIMER**: This tutorial is intended for academic purposes, and the methods suggested in these sections should be used with particular care when handling real suspicious/malicious programs. In particular, not all security policies are enforced by these sandboxing techniques, and many simplifications have been made to meet the timing constraints of this lab.
-
 Network SandBoxing
 ==================
 
