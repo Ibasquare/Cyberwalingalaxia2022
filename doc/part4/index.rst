@@ -9,14 +9,14 @@ Part 4 -- Advanced Dynamic Analysis
 
 In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the ``malware`` binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior.
 
-In order to perform theses tasks, we will rely on a debugger (in our case, the Gnu Project Debugger ``gdb``). Unlike static analysis, we will execute the binary file by debugging it. The file is not actually malicious (the commands are harmless).
+In order to perform theses tasks, we will rely on a debugger (in our case, the Gnu Project Debugger ``gdb``). Unlike static analysis, we will execute the binary file by debugging it. The file is not actually malicious (the commands are harmless), therefore you don't have to run it in a sandboxed environment (although it is better in a real situation).
 
 .. danger:: If you do not have access to Internet, make sure to run **inetsim** first (configured as local DNS - see Part 2) and run the binary with the ``--locahost`` argument.
 
 The Gnu Project Debugger
 ************************
 
-The Gnu Project Debugger can be used to study the behavior of a running program by examining its content (e.g., stack, variables, registers, ...) . It is also able to disassemble some code, i.e., showing the assembly code corresponding to the instructions.
+The Gnu Project Debugger can be used to study the behavior of a running program by examining its content (e.g., stack, variables, registers, ...). It is also able to disassemble some code, i.e., showing the assembly code corresponding to the instructions.
 
 You should be familiar with the use of gdb, but we will briefly review the most important commands you can use in this section. Note that you can also install `gdb gef <https://hugsy.github.io/gef/>`_ or `gdb pwndbg <hhttps://github.com/pwndbg/pwndbg>`_ to have gdb plug-in that makes debugging with gdb more intuitive (and fun?).
 
