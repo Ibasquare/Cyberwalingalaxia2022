@@ -47,7 +47,7 @@ if [ $(id -u) -eq 0 ]; then
 	echo ""
 	echo "You have successfully created a new account."
 	echo "You can now connect to your vm using the following command:"
-	echo "ssh $username@frodo.run.montefiore.uliege.be -p $1"
+	echo "ssh -XY $username@frodo.run.montefiore.uliege.be -p $1"
 	echo ""
 	echo ""
 else
