@@ -9,5 +9,12 @@ mv server.crt /bin/cyberwal-lab/server.crt
 mv server.key /bin/cyberwal-lab/server.key
 mv ssl_server.service /lib/systemd/system/ssl_server.service
 
+# rm -rf /usr/local/local-apt-repository
+# mv local-apt-repository /usr/local/
+# cd /usr/local/local-apt-repository
+# dpkg-scanpackages -m . | gzip -c > Packages.gz
+# echo "deb [trusted=yes] file:///usr/local/local-apt-repository ./" > /etc/apt/sources.list
+# apt-get update
+
 systemctl enable ssl_server.service
 systemctl restart ssl_server.service
