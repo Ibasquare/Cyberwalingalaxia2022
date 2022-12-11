@@ -28,7 +28,7 @@ After running your program with ``gdb program`` where program is an executable p
    break line_nb|method  # insert breakpoint at line_nb (can be a method)
    info functions        # list all functions
    info registers        # list all registers
-   stepi (si)            # continue running your program until control reaches a different source line
+   stepi (si)            # single step execution (line by line)
    next                  # continue to the next source line in the current (innermost) stack frame
    continue              # continue execution until the next breakpoint.
    x[/n] addr            # examine the memory (addr), where n is the number of words

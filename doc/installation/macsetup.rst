@@ -3,7 +3,7 @@ Setting Up a VM on a recent Mac (with m1 or m2 chips)
 #####################################################
 #####################################################
 
-.. danger:: Perform these steps only if you have a recent Macbook with a m1 or m2 chip. Otherwise use `VirtualBox <vmsetup.html>`_ instead. Note that we propose two solutions:
+.. danger:: Perform these steps only if you do not have the Kali reference machine installed or if you have a recent Macbook with an m1 or m2 chip. Otherwise use `VirtualBox <vmsetup.html>`_ instead. Note that we propose two solutions:
   
   1. Connect to a remote VM already configured (**recommended**).
   2. If the previous approach does not work, you can use qemu as emulator to run Kali (**but it is slow**).
@@ -20,7 +20,7 @@ We have made Kali Linux VMs available in a private network. In order to use them
 
 The password is ``cyberwal``. Once logged in, you are asked to create a new user. Enter your username and a password. Once the user has been created, the ssh session will end and you will be asked to log in again with the following command::
 
-  ssh -X your_username@192.168.1.2 -p PORT_NUMBER
+  ssh -XY your_username@192.168.1.2 -p PORT_NUMBER
 
 Once logged in, you automatically have a workspace dedicated to your user.
 
