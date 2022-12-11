@@ -14,13 +14,20 @@ Setting Up a VM on a recent Mac (with m1 or m2 chips)
 Connect to a remote VM (Kali) already setup
 ===========================================
 
-TODO
+We have made Kali Linux VMs available in a private network. In order to use them, it is necessary to connect to the private Wi-Fi first. The SSID is either ``Cyberwal1`` or ``Cyberwal2``. Once connected, open a terminal and connect via ssh with the following command::
 
+  ssh student@192.168.1.2
+
+The password is ``cyberwal``. Once logged in, you are asked to create a new user. Enter your username and a password. Once the user has been created, the ssh session will end and you will be asked to log in again with the following command::
+
+  ssh -X your_username@192.168.1.2 -p PORT_NUMBER
+
+Once logged in, you automatically have a workspace dedicated to your user.
 
 Using Qemu as emulator (SLOW)
 =============================
 
-As mentioned, this approach allows to run Kali x86 (64bits) on your Mac but since it relied on a emulator, it will be quite **slow**...
+As mentioned, this approach allows to run Kali x86 (64bits) on your Mac but since it relied on a emulator, it will be quite **slow**... Use it only if you cannot have access to the private network (part above).
 
 
 Download the Kali VM image
