@@ -21,7 +21,7 @@ For this part of the practical session, you need the following dependencies to b
 
    sudo apt install -y libssl-dev debootstrap iwatch inetsim
 
-In addition, the binary file that you will study is the ``malware`` executable that you studied in the Part 1.
+In addition, the binary file that you will study is the ``malware`` executable (similar to the binary file that you studied in the Part 1).
 
 SandBoxing
 **********
