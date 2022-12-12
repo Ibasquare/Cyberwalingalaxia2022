@@ -149,7 +149,7 @@ The second step of this investigation will be to perform the same setup but also
 Analyze the traffic that you captured with wireshark. Can you decrypt the first message sent by the malware to the server? 
 
 .. note::
-   **HINT**: You may want to disable the https server used by ``inetsim`` and setup a custom https server using ``openssl s_server``. To do so, edit the file ``/etc/inetsim/inetsim.conf`` and comment the line starting with ``start_service https``. Then, you can start your openssl server on port 443 using the command ``openssl s_server -port 443 -accept 443``. You can also check the limitations of wireshark regarding TLS decryption `here <https://wiki.wireshark.org/TLS>`_. 
+   **HINT**: You may want to disable the https server used by ``inetsim`` and setup a custom https server using ``openssl s_server``. To do so, edit the file ``/etc/inetsim/inetsim.conf`` and comment the line starting with ``start_service https``. Then, you can start your openssl server on port 443 using the command ``openssl s_server -port 443 -accept 443 -certs /path/to/your/certificate -key /path/to/your/key``. You can also check the limitations of wireshark regarding TLS decryption `here <https://wiki.wireshark.org/TLS>`_. 
    
    Don't forget to run all of these inside your network namespace for security reasons!
 
@@ -166,12 +166,15 @@ In this part of the lab, you are asked to monitor any file system event, e.g. fi
 
    sudo iwatch -r /path/to/jail-directory
 
+.. danger::
+   When you run the command ``iwatch``, specifying ``/path/to/jail-directory`` or ``/path/to/jail-directory/`` makes a difference! To account for the whole root directory ``/``, please ensure to avoid the second option.
+
 Once your chrooted environment is setup, you can perform the analysis using the following commands:
 
 .. code-block:: console
 
    terminal1> sudo iwatch -r /path/to/jail-directory
-   terminal2> sudo chroot /path/to/jail-directory ./path/to/malware (--localhost)
+   terminal2> sudo chroot /path/to/jail-directory ./path/to/malware/in/jail-directory (--localhost)
 
 Analyze the file system events produced by the malware when connectivity is not restricted.
 
