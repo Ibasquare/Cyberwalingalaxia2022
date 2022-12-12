@@ -13,7 +13,7 @@ Lab material
 
 In this lab, you will explore many binary reverse engineering techniques. In this first part, you will use basic static analysis techniques on a set of binaries whose source code you do not have in order to achieve a basic understanding of their logic. 
 
-.. note:: The material for all lab parts can be downloaded as a `zip archive <https://dox.uliege.be/index.php/s/ETLfkuFShPvPrAJ/download>`_. This zip archive contains one folder per part of the lab. Each folder contains the files for the corresponding part.
+.. note:: The material for all lab parts can be downloaded as a `zip archive <https://dox.uliege.be/index.php/s/Tk9ywgpdjziBGYJ/download>`_. This zip archive contains one folder per part of the lab. Each folder contains the files for the corresponding part.
 
 Lab tools
 *********
