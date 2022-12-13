@@ -24,6 +24,8 @@ The password is ``cyberwal``. Once logged in, you are asked to create a new user
 
 Once logged in, you automatically have a workspace dedicated to your user in ``/var/<your_username>``.
 
+.. danger:: In order to use the ``-XY`` argument, make sure you have installed `XQuartz <https://www.xquartz.org>`_.
+
 Using Qemu as emulator (SLOW)
 *****************************
 

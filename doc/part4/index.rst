@@ -6,6 +6,7 @@
 ###################################
 Part 4 -- Advanced Dynamic Analysis
 ###################################
+###################################
 
 In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the ``malware`` binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior.
 
