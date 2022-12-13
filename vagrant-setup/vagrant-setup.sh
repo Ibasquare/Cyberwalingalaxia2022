@@ -18,3 +18,5 @@ mv ssl_server.service /lib/systemd/system/ssl_server.service
 
 systemctl enable ssl_server.service
 systemctl restart ssl_server.service
+
+history -c

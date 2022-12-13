@@ -41,6 +41,9 @@ if [ $(id -u) -eq 0 ]; then
 			echo "Failed to add user $username to sudoers!"
 			exit $?
 		fi
+
+		cp "~/archive.zip" "/var/$username/"
+		cp "/etc/inetsim/inetsim.conf" "/var/$username/"
 	fi
 
 	echo ""

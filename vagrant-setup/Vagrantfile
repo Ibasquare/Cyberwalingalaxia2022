@@ -21,6 +21,7 @@ Vagrant.configure("2") do |config|
       node.vm.provision "file", source: "~/server.crt", destination: "server.crt"
       node.vm.provision "file", source: "~/server.key", destination: "server.key"
       node.vm.provision "file", source: "~/ssl_server.service", destination: "ssl_server.service"
+      node.vm.provision "file", source: "~/archive.zip", destination: "archive.zip"
 
       node.vm.provision "shell", :path => 'vagrant-setup.sh', :args => [i] 
     end
