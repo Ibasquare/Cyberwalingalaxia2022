@@ -2,10 +2,14 @@
    sphinx-quickstart on Fri Jun 10 23:25:15 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
-##########################
-Cyberwal in Galaxia [2022]
-##########################
-##########################
+
+|
+
+.. image:: images/main_page.png
+   :width: 600
+   :align: center
+
+|
 
 Welcome to ULiege's Malware Reverse Engineering Lab, which focuses on
 fundamentals of malware reverse engineering.
