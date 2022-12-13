@@ -12,7 +12,7 @@ In this section, you will play with advanced dynamic techniques in order to anal
 
 In order to perform theses tasks, we will rely on a debugger (in our case, the Gnu Project Debugger ``gdb``). Unlike static analysis, we will execute the binary file by debugging it. The file is not actually malicious (the commands are harmless), therefore you do not have to run it in a sandboxed environment (although it is better in a real situation).
 
-.. danger:: If you do not have access to Internet, make sure to run **inetsim** first (configured as local DNS - see Part 2) and run the binary with the ``--locahost`` argument.
+.. danger:: If you do not have access to Internet, run the binary with the ``--localhost`` argument.
 
 The Gnu Project Debugger
 ************************
