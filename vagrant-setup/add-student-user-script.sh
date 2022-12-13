@@ -42,7 +42,7 @@ if [ $(id -u) -eq 0 ]; then
 			exit $?
 		fi
 
-		cp "~/archive.zip" "/var/$username/"
+		cp "/home/vagrant/archive.zip" "/var/$username/"
 		cp "/etc/inetsim/inetsim.conf" "/var/$username/"
 	fi
 
