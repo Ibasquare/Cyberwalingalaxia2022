@@ -52,7 +52,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Cyberwal-in-galaxia'
+project = u'Cyberwal-in-Galaxia'
 copyright = u'2022, Université de Liège'
 author = u'Université de Liège (ULiège)'
 

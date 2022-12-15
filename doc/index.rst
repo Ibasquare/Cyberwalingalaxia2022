@@ -4,11 +4,16 @@
    contain the root `toctree` directive.
 
 |
+|
+|
+|
 
 .. image:: images/main_page.png
    :width: 600
    :align: center
 
+|
+|
 |
 
 Welcome to ULiege's Malware Reverse Engineering Lab, which focuses on
